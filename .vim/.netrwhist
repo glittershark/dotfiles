@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/home/smith/.dotfiles/.git/modules'
+let g:netrw_dirhist_2='/usr/local/share/fredchat-server-hooks'
+let g:netrw_dirhist_3='/usr/local/share/fredchat-server-hooks/post-receive.d'

@@ -1,0 +1,63 @@
+" vim: set filetype=vim foldmethod=marker foldmarker={{{,}}}:
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+Bundle 'gmarik/vundle'
+" Bundle list {{{
+Bundle 'aftersyntaxc.vim'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'Blackrush/vim-gocode'
+Bundle 'bling/vim-airline'
+Bundle 'bling/vim-bufferline'
+Bundle 'briancollins/vim-jst'
+Bundle 'closetag.vim'
+Bundle 'dsawardekar/ember.vim'
+Bundle 'DetectIndent'
+Bundle 'exu/pgsql.vim'
+Bundle 'godlygeek/tabular'
+Bundle 'groenewege/vim-less'
+Bundle 'hdima/python-syntax'
+Bundle 'hsitz/VimOrganizer'
+Bundle 'jelera/vim-javascript-syntax'
+Bundle 'joonty/vdebug'
+Bundle 'kien/ctrlp.vim'
+Bundle 'krisajenkins/vim-pipe'
+Bundle 'krisajenkins/vim-postgresql-syntax'
+Bundle 'marijnh/tern_for_vim'
+Bundle 'majutsushi/tagbar'
+Bundle 'matchit.zip'
+Bundle 'mattn/calendar-vim'
+Bundle 'mattn/ctrlp-git'
+Bundle 'mattn/emmet-vim'
+Bundle 'mhinz/vim-signify'
+Bundle 'mhinz/vim-startify'
+Bundle 'mrtazz/simplenote.vim'
+Bundle 'mustache/vim-mustache-handlebars'
+Bundle 'nvie/vim-pyunit'
+Bundle 'php.vim'
+Bundle 'Raimondi/delimitMate'
+Bundle 'rayburgemeestre/phpfolding.vim'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/syntastic'
+" Bundle 'SirVer/ultisnips'
+Bundle 'sjl/gundo.vim'
+Bundle 'skammer/vim-css-color'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-rails'
+Bundle 'tpope/vim-speeddating'
+Bundle 'tpope/vim-surround'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'vim-php/tagbar-phpctags.vim'
+Bundle 'vim-scripts/haskell.vim'
+Bundle 'dsawardekar/portkey'
+Bundle 'jsx/jsx.vim'
+Bundle 'digitaltoad/vim-jade'
+" }}}
+
+filetype plugin indent on     " required!
+

@@ -1,0 +1,47 @@
+snippet beg "Begin Transaction" !b
+BEGIN;
+	$1
+COMMIT;
+endsnippet
+
+snippet cre "CREATE TABLE" !b
+CREATE TABLE ${1:table_name} (
+	${2:columns}
+);
+endsnippet
+
+snippet ins "INSERT INTO" !b
+INSERT INTO ${1:table_name} (${2:columns}) VALUES (
+	${3:values}
+);
+endsnippet
+
+snippet sel "SELECT FROM" !b
+SELECT
+	${1:columns}
+FROM ${2:table_name}
+$3
+endsnippet
+
+snippet whe "WHERE" !b
+WHERE ${1:column} ${2:=} ${3:value}
+endsnippet
+
+snippet joi "JOIN" !b
+INNER JOIN ${1:table_name} ${2:table_alias}
+	ON ${3:other_table}.${4:column_name} = $2.${5:column_name}
+endsnippet
+
+snippet ljoi "LEFT JOIN" !b
+LEFT JOIN ${1:table_name} ${2:table_alias}
+	ON ${3:other_table}.${4:column_name} = $2.${5:column_name}
+endsnippet
+
+snippet gro "GROUP BY" !b
+GROUP BY $1
+endsnippet
+
+snippet ord "ORDER BY" !b
+ORDER BY $1
+endsnippet
+

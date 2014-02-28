@@ -1,0 +1,13 @@
+snippet . "self." !b
+self.$1
+endsnippet
+
+snippet prop "Property" !b
+@property
+def ${1:propname}(self):
+	${2:return self._$1}
+
+@$1.setter
+def $1(self, value):
+	${3:self._$1 = value}
+endsnippet

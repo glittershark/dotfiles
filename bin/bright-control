@@ -1,0 +1,21 @@
+#!/bin/zsh
+
+PERCENT_STEP=$[$(cat /sys/class/backlight/gmux_backlight/max_brightness) / 100]
+CUR_LEVEL=$(cat /sys/class/backlight/gmux_backlight/brightness)
+
+if [ $1 = "--current" ]; then
+  CUR_PERCENT=$(expr $CUR_LEVEL / $PERCENT_STEP)
+  echo "${CUR_PERCENT}%" 
+  exit
+fi
+
+if NEW_LEVEL=$(expr $CUR_LEVEL + "$(expr $1 "*" $PERCENT_STEP)"); then
+  if echo $NEW_LEVEL > /sys/class/backlight/gmux_backlight/brightness > /dev/null; then
+    NEW_PERCENT=$(expr $NEW_LEVEL / $PERCENT_STEP)
+    echo "${NEW_PERCENT}%"
+  fi
+fi
+
+
+# vim: set filetype=zsh
+
