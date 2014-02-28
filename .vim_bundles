@@ -9,7 +9,7 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 " Bundle list {{{
 Bundle 'aftersyntaxc.vim'
-Bundle 'altercation/vim-colors-solarized'
+Bundle 'glittershark/vim-colors-solarized'
 Bundle 'Blackrush/vim-gocode'
 Bundle 'bling/vim-airline'
 Bundle 'bling/vim-bufferline'

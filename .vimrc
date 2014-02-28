@@ -222,6 +222,11 @@ nnoremap <Leader>nw :Simplenote -l work<CR>
 nnoremap <Leader>nt :Simplenote -t<CR>
 " }}}
 
+" Emmet {{{
+" Expand abbreviation
+let g:user_emmet_leader_key = ',y'
+" }}}
+
 " Startify {{{
 let g:startify_bookmarks=[ '~/.vimrc',  '~/.zshrc', '~/.config/awesome/rc.lua' ]
 " }}}

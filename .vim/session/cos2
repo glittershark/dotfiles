@@ -1,0 +1,101 @@
+let SessionLoad = 1
+if &cp | set nocp | endif
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+cd /Library/WebServer/cos2
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+badd +0 application/Bootstrap.php
+silent! argdel *
+edit application/Bootstrap.php
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+2,7fold
+12,19fold
+21,29fold
+42,46fold
+48,52fold
+54,61fold
+63,66fold
+31,68fold
+81,90fold
+77,90fold
+76,90fold
+70,90fold
+92,172fold
+182,182fold
+174,207fold
+218,226fold
+209,239fold
+246,255fold
+267,276fold
+260,286fold
+256,286fold
+241,286fold
+294,305fold
+288,307fold
+315,368fold
+309,370fold
+378,393fold
+372,395fold
+420,432fold
+416,432fold
+397,432fold
+442,448fold
+434,450fold
+452,462fold
+472,477fold
+464,479fold
+491,499fold
+503,511fold
+481,514fold
+516,525fold
+527,583fold
+590,640fold
+585,642fold
+644,675fold
+677,698fold
+725,733fold
+705,743fold
+700,745fold
+752,761fold
+747,763fold
+772,775fold
+770,775fold
+765,776fold
+let s:l = 1 - ((0 * winheight(0) + 27) / 55)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+tabnext 1
+if exists('s:wipebuf')
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 shortmess=filnxtToO
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :
