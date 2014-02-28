@@ -1,0 +1,148 @@
+l
+l 10
+cd game/world
+l
+ls
+l
+l world.go
+l world.go:10
+l world.go:159
+b world.go:159
+r
+p obj
+p obj.tab
+p obj.data
+p *obj
+p *obj.tab
+p
+h
+cd game/world
+l world.go:12
+b world.go:84
+l world.go:84
+r
+i args
+p *w
+h
+h running
+step
+step
+i args
+i locals
+q
+y
+cd game/world/world.go
+cd game/world/
+l world.go
+l world.go:59
+q
+cd game/world 
+l world.go:50
+h
+h files
+add-symbol-file world.go
+file world.go
+pwd
+l world.go:59
+b world.go:114
+l world.go:114
+b world.go:84
+q
+cd game/world 
+b world.go:84
+r
+s
+s
+i locals
+p i
+p *i
+p l
+p x
+p CHUNK_SIZE
+i args
+i locals
+i vars
+h info
+s
+s
+p w.chunks
+p x
+p y
+r
+n
+h
+h running
+s
+start
+n
+c
+p x
+p y
+b 159
+c
+p x
+p obj
+p obj.Position
+p obj.GetPosition()
+s
+p x
+i locals
+s
+i locals
+s
+s
+h cgdb
+i args
+i locals
+s
+s
+s
+s
+s
+s
+c
+i args
+i locals
+p obj.Position
+p obj
+p obj.position
+p x
+p y
+s
+s
+p x
+p y
+c
+s
+p x
+p y
+c
+i locals
+c
+i locals
+p x
+p y
+s
+p x
+p y
+i args
+s
+i args
+q
+y
+i args
+i locals
+p obj.position
+p
+p obj
+p
+p obj.data
+p *obj.data
+p *obj.tab
+q
+help
+r
+r
+y
+l
+e src/
