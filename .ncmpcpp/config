@@ -303,7 +303,7 @@ progressbar_look = "─╼ "
 #
 user_interface = "alternative" # (classic/alternative)
 #
-#media_library_left_column = "a" (possible values: a,y,g,c,p, legend above)
+media_library_left_column = "A" (possible values: a,y,g,c,p, legend above)
 #
 #default_find_mode = "wrapped" (wrapped/normal)
 #
@@ -423,7 +423,7 @@ ignore_leading_the = "yes"
 #
 #media_library_display_empty_tag = "yes"
 #
-#media_library_disable_two_column_mode = "no"
+media_library_disable_two_column_mode = "yes"
 #
 #enable_window_title = "yes"
 #

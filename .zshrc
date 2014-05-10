@@ -1,5 +1,5 @@
 #!/usr/bin/zsh
-#
+# vim: set fdm=marker fmr={{{,}}}:
 
 source ~/.t-completion.zsh
 
@@ -7,6 +7,8 @@ source ~/.t-completion.zsh
 zstyle ':completion:*' completer _complete _ignored _correct _approximate
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} m:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._- :]=** r:|=**' 'l:|=* r:|=*'
 zstyle ':completion:*' max-errors 5
+zstyle ':completion:*' use-cache yes
+zstyle ':completion::complete:grunt::options:' expire 1
 zstyle ':completion:*' prompt '%e errors'
 zstyle :compinstall filename '~/.zshrc'
 autoload -Uz compinit
@@ -72,12 +74,12 @@ ZSH_THEME="sharkparty"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git systemd jira postgres python colorize github battery archlinux git-extras vi-mode themes zsh-syntax-highlighting)
+plugins=(git systemd git grunt jira postgres python colorize github battery archlinux git-extras vi-mode themes zsh-syntax-highlighting)
 
 # }}}
 
 # Zsh highlight highlighters {{{
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 # }}}
 
 # Fasd {{{
@@ -310,6 +312,8 @@ export GOPATH="/home/smith/code/go"
 # Startstuff {{{
 alias startcos='vboxmanage startvm COS-Test --type headless && echo 1 > /tmp/which_cos'
 alias startcos2='vboxmanage startvm COS2-Test --type headless && echo 2 > /tmp/which_cos'
+alias stopcos='vboxmanage controlvm COS-Test savestate'
+alias stopcos2='vboxmanage controlvm COS2-Test savestate'
 function swapcos() {
 case $(< ~/.which_cos) in
     1)
@@ -346,11 +350,9 @@ alias tstaw='Xephyr -ac -br -noreset -screen 800x600 :1; DISPLAY=:1; awesome'
 alias hks='cd ~/code/hooks'
 alias cos='cd ~/code/cos'
 alias cos2='cd ~/code/cos2'
-alias tan='cd ~/code/critical-tangent/tangent'
+alias rtb='cd ~/code/open-source/reactable'
+alias tan='cd ~/code/tangent/tangent'
 alias ddy='cd ~/code/digitaldirectory'
-alias fcr='cd ~/code/fredchat'
-alias fcc='cd ~/code/fredchat/client'
-alias fcs='cd ~/code/fredchat/server'
 alias dtf='cd ~/.dotfiles'
 alias csc='cd ~/code/go/src/github.com/glittershark/cascade/'
 
@@ -361,7 +363,7 @@ export NODE_ENV='development'
 # }}}
 
 # SSH shortcuts {{{
-alias fred='ssh Griffin@fredchat.com'
+alias fred='ssh Griffin@24.9.4.108'
 alias pi='ssh pi@192.168.1.13'
 alias bulbasaur='ssh admin@192.168.56.101'
 alias bulba=bulbasaur
@@ -392,6 +394,14 @@ alias rmresolv='sudo rm /etc/resolv.conf'
 # XRandR {{{
 alias workmon='xrandr --output DP-2 --pos 1440x900 --primary'
 # }}}
+#
+
+# Tangent Stuff {{{
+alias prd='production'
+alias stg='stage'
+alias tst='test'
+alias dmo='demo'
+# }}}
 
 alias py=ipython2
 alias py3=ipython
@@ -399,6 +409,7 @@ alias py3=ipython
 alias cat=dog
 
 alias rnc='sudo systemctl restart $(systemctl | grep netctl-auto | sed -s "s/\\s.*$//")'
+alias rvpn='sudo systemctl restart openvpn@bldr-dev openvpn@lsvl-dev'
 
 # {{{
 alias asdfghjkl='echo "Having some trouble?"'
@@ -408,9 +419,7 @@ alias asdflkj='asdf'
 
 [ -f ./.fredrc ] && source ./.fredrc
 
-# vim: set foldmethod=marker:
-
-###-begin-npm-completion-###
+###-begin-npm-completion-### {{{
 #
 # npm command completion script
 #
@@ -462,4 +471,5 @@ elif type compctl &>/dev/null; then
   }
   compctl -K _npm_completion npm
 fi
-###-end-npm-completion-###
+###-end-npm-completion-### }}}
+

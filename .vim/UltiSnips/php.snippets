@@ -5,3 +5,16 @@ endsnippet
 snippet php "PHP Tag" !b
 <?php $1 ?>
 endsnippet
+
+snippet fun "function" !b
+/**
+ * ${1:functionName} - ${2:description}
+ *
+ * @access ${3:public}
+ * @return ${4:void}
+ */
+$3 function $1($5)
+{
+    $6
+}
+endsnippet

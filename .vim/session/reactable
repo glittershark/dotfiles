@@ -3,15 +3,15 @@ if &cp | set nocp | endif
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd /Library/WebServer/cos2
+cd ~/code/open-source/reactable
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +1 application/Bootstrap.php
+badd +0 test.html
 argglobal
 silent! argdel *
-edit application/Bootstrap.php
+edit test.html
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -27,62 +27,11 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-2,7fold
-12,19fold
-20,28fold
-40,45fold
-47,52fold
-54,62fold
-64,67fold
-29,69fold
-80,89fold
-77,89fold
-76,89fold
-70,89fold
-90,170fold
-179,179fold
-171,204fold
-214,222fold
-205,235fold
-241,250fold
-261,271fold
-254,281fold
-251,281fold
-236,281fold
-288,299fold
-282,301fold
-308,368fold
-302,370fold
-393,405fold
-390,405fold
-371,405fold
-414,423fold
-406,425fold
-434,440fold
-426,442fold
-453,461fold
-464,472fold
-443,475fold
-476,485fold
-486,543fold
-549,599fold
-544,601fold
-602,633fold
-634,655fold
-656,677fold
-702,710fold
-683,720fold
-678,722fold
-728,736fold
-723,738fold
-746,749fold
-744,749fold
-739,750fold
-let s:l = 8 - ((7 * winheight(0) + 27) / 55)
+let s:l = 1 - ((0 * winheight(0) + 33) / 67)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-8
+1
 normal! 0
 tabnext 1
 if exists('s:wipebuf')
