@@ -3,3 +3,8 @@
 Abolish fielset fieldset
 Abolish lsit list 
 
+Abolish functoin function
+Abolish fucnton function
+Abolish fucntion function
+Abolish fucntion function
+Abolish fuction function

@@ -97,8 +97,8 @@ let g:vdebug_options = {'server': '192.168.56.1'}
 command! SqlVbox     let b:vimpipe_command='ssh vladmin@cos.dev "psql cos cosadmin"'
 command! SqlVbox2    let b:vimpipe_command='ssh vladmin@cos.dev "psql os000 os000"'
 command! SqlCoral2   let b:vimpipe_command='ssh vladmin@coral.vladmin.net "psql -p 25432 os000 os000"'
-command! SqlTest     let b:vimpipe_command='ssh vladmin@coral.vladmin.net "psql -p 5434 cos cosadmin"'
-command! SqlStage    let b:vimpipe_command='ssh vladmin@coral.vladmin.net "psql -p 5432 cos cosadmin"'
+command! SqlTest     let b:vimpipe_command='ssh vladmin@coral.vladmin.net "psql -p 5432 cos cosadmin"'
+command! SqlStage    let b:vimpipe_command='ssh vladmin@ginger.vladmin.net "psql -p 5432 cos cosadmin"'
 command! SqlCalculon let b:vimpipe_command='ssh vladmin@calculon.vladmin.net "psql cos cosadmin"'
 command! SqlFlexo    let b:vimpipe_command='ssh vladmin@flexo.vladmin.net "psql cos cosadmin"'
 command! SqlMario    let b:vimpipe_command='ssh vladmin@mario.vladmin.net "psql cos cosadmin"'
@@ -117,6 +117,9 @@ let g:airline_symbols.space = "\ua0"
 let g:airline#extensions#tagbar#flags = 'f'
 let g:ariline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_min_count = 2
+
+let g:tmuxline_theme = 'airline'
+let g:tmuxline_preset = 'full'
 
 "set statusline=
 "set statusline+=%2*[%n%H%M%R%W]%*\              " flags and buf no
@@ -207,7 +210,7 @@ let g:startify_bookmarks=[ '~/.vimrc',  '~/.zshrc' ]
 " }}}
 
 " Abolish {{{
-let g:abolish_save_file = '~/.vim/after/plugin/abolish.vim'
+let g:abolish_save_file = expand('~/.vim/after/plugin/abolish.vim')
 " }}}
 
 " Mustache/Handlebars {{{
@@ -365,12 +368,12 @@ augroup END
 " }}}
 
 augroup quickfix " {{{
-  au! 
+  au!
   autocmd QuickFixCmdPost grep cwindow
 augroup END " }}}
 
 augroup php " {{{
-  au! 
+  au!
 augroup END  "}}}
 
 " }}}
@@ -512,4 +515,6 @@ map <Leader>n :set relativenumber!<CR>:set relativenumber?<CR>
 " Mappings {{{
 " 'delete current'
 nnoremap dc 0d$
+nnoremap com :silent !tmux set status<CR>
 " }}}
+

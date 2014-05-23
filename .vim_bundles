@@ -11,8 +11,10 @@ Plugin 'gmarik/vundle'
 " Plugin 'file:///home/smith/code/open-source/pgsql.vim'
 Plugin 'file:///home/smith/code/open-source/vim-geeknote'
 
+Plugin 'edkolev/tmuxline.vim'
 Plugin 'exu/pgsql.vim'
 Plugin 'aftersyntaxc.vim'
+Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'Blackrush/vim-gocode'
 Plugin 'bling/vim-airline'
@@ -79,6 +81,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-php/tagbar-phpctags.vim'
 Plugin 'vim-scripts/haskell.vim'
 Plugin 'wting/rust.vim'
+Plugin 'othree/html5.vim'
 " }}}
 
 filetype plugin indent on     " required!

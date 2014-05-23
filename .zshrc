@@ -85,6 +85,7 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 # Fasd {{{
 eval "$(fasd --init auto)"
 alias v='f -e vim'
+alias gv='f -e gvim'
 alias m='f -e mplayer'
 # }}}
 
@@ -372,7 +373,7 @@ alias fhc='ssh -p 2247 zoodle@166.78.141.131'
 
 alias vbox='ssh vladmin@cos.dev'
 alias coral='ssh vladmin@coral.vladmin.net'
-alias paci='ssh vladmin@pacific.vladmin.net'
+alias ging='ssh vladmin@ginger.vladmin.net'
 alias frog='ssh smith@frogger.vladmin.net'
 alias cali='ssh vladmin@california.vladmin.net'
 alias luigi='ssh vladmin@luigi.vladmin.net'
