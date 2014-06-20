@@ -2,6 +2,9 @@
 # vim: set fdm=marker fmr={{{,}}}:
 
 source ~/.t-completion.zsh
+source ~/.fzf.zsh
+
+stty -ixon
 
 # Compinstall {{{
 zstyle ':completion:*' completer _complete _ignored _correct _approximate
@@ -83,10 +86,10 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 # }}}
 
 # Fasd {{{
-eval "$(fasd --init auto)"
-alias v='f -e vim'
-alias gv='f -e gvim'
-alias m='f -e mplayer'
+# eval "$(fasd --init auto)"
+# alias v='f -e vim'
+# alias gv='f -e gvim'
+# alias m='f -e mplayer'
 # }}}
 
 source $ZSH/oh-my-zsh.sh
@@ -95,28 +98,28 @@ source $ZSH/oh-my-zsh.sh
 
 # Set the terminal's title bar.
 function titlebar() {
-  echo -ne "\033]0;$*\007"
+echo -ne "\033]0;$*\007"
 }
 
 function quiet() {
-  "$@" >/dev/null
+"$@" >/dev/null
 }
 
 function quieter() {
-  "$@" >/dev/null 2>&1
+"$@" >/dev/null 2>&1
 }
 
 # From http://stackoverflow.com/questions/370047/#370255
 function path_remove() {
-  IFS=:
-  # convert it to an array
-  t=($PATH)
-  unset IFS
-  # perform any array operations to remove elements from the array
-  t=(${t[@]%%$1})
-  IFS=:
-  # output the new array
-  echo "${t[*]}"
+IFS=:
+# convert it to an array
+t=($PATH)
+unset IFS
+# perform any array operations to remove elements from the array
+t=(${t[@]%%$1})
+IFS=:
+# output the new array
+echo "${t[*]}"
 }
 
 # }}}
@@ -167,30 +170,30 @@ alias dsstore="find . -name '*.DS_Store' -type f -ls -delete"
 
 # Create a new directory and enter it
 function md() {
-  mkdir -p "$@" && cd "$@"
+mkdir -p "$@" && cd "$@"
 }
 
 # }}}
 
 # MPD/MPC stuff {{{
 function mp() {
-  # Test if drive is already mounted
-  if ! lsblk | grep /mnt/external; then
-    if ! sudo mount /mnt/external; then
-      echo "External drive not plugged in"
-      return 1
-    fi
+# Test if drive is already mounted
+if ! lsblk | grep /mnt/external; then
+  if ! sudo mount /mnt/external; then
+    echo "External drive not plugged in"
+    return 1
   fi
-  mpd           &&
-    mpdscribble &&
-    ncmpcpp
+fi
+mpd           &&
+  mpdscribble &&
+  ncmpcpp
 }
 
 # kill mp
 function kmp() {
-  killall ncmpcpp
-  mpd --kill
-  sudo umount /mnt/external
+killall ncmpcpp
+mpd --kill
+sudo umount /mnt/external
 }
 
 alias mpl='mpc playlist'
@@ -201,8 +204,8 @@ alias mpart='mpc search artist'
 alias mpalb='mpc search album'
 
 function mppal() {
-  mpc search album "$1" | mpc add &&
-    mpc play;
+mpc search album "$1" | mpc add &&
+  mpc play;
 }
 # }}}
 
@@ -230,6 +233,7 @@ alias gsl='git stash list'
 alias gd='git diff'
 alias gdc='gd --cached'
 alias gm='git merge'
+alias gci='git commit'
 alias gcv='git commit --verbose'
 alias gb='git branch'
 alias gba='git branch -a'
@@ -248,54 +252,54 @@ alias gbt='git vl branch'
 
 # open all changed files (that still actually exist) in the editor
 function ged() {
-  local files=()
-  for f in $(git diff --name-only "$@"); do
-    [[ -e "$f" ]] && files=("${files[@]}" "$f")
-  done
-  local n=${#files[@]}
-  echo "Opening $n $([[ "$@" ]] || echo "modified ")file$([[ $n != 1 ]] && \
-    echo s)${@:+ modified in }$@"
-  q "${files[@]}"
+local files=()
+for f in $(git diff --name-only "$@"); do
+  [[ -e "$f" ]] && files=("${files[@]}" "$f")
+done
+local n=${#files[@]}
+echo "Opening $n $([[ "$@" ]] || echo "modified ")file$([[ $n != 1 ]] && \
+  echo s)${@:+ modified in }$@"
+q "${files[@]}"
 }
 
 # add a github remote by github username
 function gra() {
-  if (( "${#@}" != 1 )); then
-    echo "Usage: gra githubuser"
-    return 1;
-  fi
-  local repo=$(gr show -n origin | perl -ne '/Fetch URL: .*github\.com[:\/].*\/(.*)/ && print $1')
-  gr add "$1" "git://github.com/$1/$repo"
+if (( "${#@}" != 1 )); then
+  echo "Usage: gra githubuser"
+  return 1;
+fi
+local repo=$(gr show -n origin | perl -ne '/Fetch URL: .*github\.com[:\/].*\/(.*)/ && print $1')
+gr add "$1" "git://github.com/$1/$repo"
 }
 
 # git find-replace
 function gfr() {
-  if [[ "$#" == "0" ]]; then
-    echo 'Usage:'
-    echo ' gg_replace term replacement file_mask'
-    echo
-    echo 'Example:'
-    echo ' gg_replace cappuchino cappuccino *.html'
-    echo
-  else
-    find=$1; shift
-    replace=$1; shift
+if [[ "$#" == "0" ]]; then
+  echo 'Usage:'
+  echo ' gg_replace term replacement file_mask'
+  echo
+  echo 'Example:'
+  echo ' gg_replace cappuchino cappuccino *.html'
+  echo
+else
+  find=$1; shift
+  replace=$1; shift
 
-    ORIG_GLOBIGNORE=$GLOBIGNORE
-    GLOBIGNORE=*.*
-    if [[ "$#" = "0" ]]; then
-      set -- ' ' $@
-    fi
-
-    while [[ "$#" -gt "0" ]]; do
-      for file in `git grep -l $find -- $1`; do
-        sed -e "s/$find/$replace/g" -i'' $file
-      done
-      shift
-    done
-
-    GLOBIGNORE=$ORIG_GLOBIGNORE
+  ORIG_GLOBIGNORE=$GLOBIGNORE
+  GLOBIGNORE=*.*
+  if [[ "$#" = "0" ]]; then
+    set -- ' ' $@
   fi
+
+  while [[ "$#" -gt "0" ]]; do
+    for file in `git grep -l $find -- $1`; do
+      sed -e "s/$find/$replace/g" -i'' $file
+    done
+    shift
+  done
+
+  GLOBIGNORE=$ORIG_GLOBIGNORE
+fi
 }
 # }}}
 
@@ -317,23 +321,23 @@ alias stopcos='vboxmanage controlvm COS-Test savestate'
 alias stopcos2='vboxmanage controlvm COS2-Test savestate'
 function swapcos() {
 case $(< ~/.which_cos) in
-    1)
-      echo -e "\033[01;37m Switching to COS2 \033[00m"
-      vboxmanage controlvm COS-Test savestate || return 1
-      vboxmanage startvm COS2-Test --type headless || return 1
-      rm /Library/WebServer/communityos || return 1
-      ln -s /Library/WebServer/cos2/public /Library/WebServer/communityos || return 1
-      echo 2 > ~/.which_cos
-      ;;
-    2)
-      echo -e "\033[01;37m Switching to COS1 \033[00m"
-      vboxmanage controlvm COS2-Test savestate || return 1
-      vboxmanage startvm COS-Test --type headless || return 1
-      rm /Library/WebServer/communityos || return 1
-      ln -s /Library/WebServer/cos /Library/WebServer/communityos || return 1
-      echo 1 > ~/.which_cos
-      ;;
-  esac
+  1)
+    echo -e "\033[01;37m Switching to COS2 \033[00m"
+    vboxmanage controlvm COS-Test savestate || return 1
+    vboxmanage startvm COS2-Test --type headless || return 1
+    rm /Library/WebServer/communityos || return 1
+    ln -s /Library/WebServer/cos2/public /Library/WebServer/communityos || return 1
+    echo 2 > ~/.which_cos
+    ;;
+  2)
+    echo -e "\033[01;37m Switching to COS1 \033[00m"
+    vboxmanage controlvm COS2-Test savestate || return 1
+    vboxmanage startvm COS-Test --type headless || return 1
+    rm /Library/WebServer/communityos || return 1
+    ln -s /Library/WebServer/cos /Library/WebServer/communityos || return 1
+    echo 1 > ~/.which_cos
+    ;;
+esac
 }
 # }}}
 
@@ -382,6 +386,10 @@ alias calculon='ssh vladmin@calculon.vladmin.net'
 alias flexo='ssh vladmin@flexo.vladmin.net'
 # }}}
 
+# Other Shortcuts {{{
+alias tanmongo='mongo ds027789.mongolab.com:27789/heroku_app21393669 -u gsmith'
+# }}}
+
 # Editing config files {{{
 alias vi='vim'
 alias virc='vi ~/.zshrc && source ~/.zshrc || echo "Editing failed"'
@@ -395,7 +403,38 @@ alias rmresolv='sudo rm /etc/resolv.conf'
 # XRandR {{{
 alias workmon='xrandr --output DP-2 --pos 1440x900 --primary'
 # }}}
-#
+
+# fzf {{{
+v() {
+  local file
+  file=$(fzf --query="$1" --select-1 --exit-0)
+  [ -n "$file" ] && ${EDITOR:-vim} "$file"
+}
+
+# fd - cd to selected directory
+c() {
+  local dir
+  dir=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m) && cd "$dir"
+}
+
+# fh - repeat history
+# h() {
+#   eval $(([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s | sed 's/ *[0-9]* *//')
+# }
+
+# fkill - kill process
+fkill() {
+  ps -ef | sed 1d | fzf -m | awk '{print $2}' | xargs kill -${1:-9}
+}
+# }}}
+
+# Tmux utils {{{
+kill_detached() {
+  for sess in $(tmux ls | grep -v attached | sed -s "s/:.*$//"); do
+    tmux kill-session -t $sess;
+  done
+}
+# }}}
 
 # Tangent Stuff {{{
 alias prd='production'
@@ -411,6 +450,8 @@ alias cat=dog
 
 alias rnc='sudo systemctl restart $(systemctl | grep netctl-auto | sed -s "s/\\s.*$//")'
 alias rvpn='sudo systemctl restart openvpn@bldr-dev openvpn@lsvl-dev'
+
+alias ift='sudo iftop -i wlp3s0'
 
 # {{{
 alias asdfghjkl='echo "Having some trouble?"'
@@ -436,10 +477,10 @@ if type complete &>/dev/null; then
   _npm_completion () {
     local si="$IFS"
     IFS=$'\n' COMPREPLY=($(COMP_CWORD="$COMP_CWORD" \
-                           COMP_LINE="$COMP_LINE" \
-                           COMP_POINT="$COMP_POINT" \
-                           npm completion -- "${COMP_WORDS[@]}" \
-                           2>/dev/null)) || return $?
+      COMP_LINE="$COMP_LINE" \
+      COMP_POINT="$COMP_POINT" \
+      npm completion -- "${COMP_WORDS[@]}" \
+      2>/dev/null)) || return $?
     IFS="$si"
   }
   complete -F _npm_completion npm
@@ -447,10 +488,10 @@ elif type compdef &>/dev/null; then
   _npm_completion() {
     si=$IFS
     compadd -- $(COMP_CWORD=$((CURRENT-1)) \
-                 COMP_LINE=$BUFFER \
-                 COMP_POINT=0 \
-                 npm completion -- "${words[@]}" \
-                 2>/dev/null)
+      COMP_LINE=$BUFFER \
+      COMP_POINT=0 \
+      npm completion -- "${words[@]}" \
+      2>/dev/null)
     IFS=$si
   }
   compdef _npm_completion npm
@@ -464,13 +505,14 @@ elif type compctl &>/dev/null; then
     read -ln point
     si="$IFS"
     IFS=$'\n' reply=($(COMP_CWORD="$cword" \
-                       COMP_LINE="$line" \
-                       COMP_POINT="$point" \
-                       npm completion -- "${words[@]}" \
-                       2>/dev/null)) || return $?
+      COMP_LINE="$line" \
+      COMP_POINT="$point" \
+      npm completion -- "${words[@]}" \
+      2>/dev/null)) || return $?
     IFS="$si"
   }
   compctl -K _npm_completion npm
 fi
 ###-end-npm-completion-### }}}
 
+source ~/.fzf.zsh

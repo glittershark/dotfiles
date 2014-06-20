@@ -1,6 +1,7 @@
 " vim:set fdm=marker fmr={{{,}}} ts=2 sts=2 sw=2 expandtab:
 
 source ~/.vim_bundles
+set rtp+=~/.fzf
 
 " Basic Options {{{
 set nocompatible
@@ -83,7 +84,7 @@ let g:delimitMate_expand_cr = 1
 " }}}
 
 " UltiSnips options {{{
-let g:UltiSnipsExpandTrigger = '<c-enter>'
+let g:UltiSnipsExpandTrigger = '<c-j>'
    "g:UltiSnipsJumpForwardTrigger          <c-j>
    "g:UltiSnipsJumpBackwardTrigger         <c-k>
 " }}}
@@ -117,6 +118,7 @@ let g:airline_symbols.space = "\ua0"
 let g:airline#extensions#tagbar#flags = 'f'
 let g:ariline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_min_count = 2
+let g:airline#extensions#tmuxline#enabled = 0
 
 let g:tmuxline_theme = 'airline'
 let g:tmuxline_preset = 'full'
@@ -195,7 +197,7 @@ nnoremap <Leader>nt :Simplenote -t<CR>
 
 " Emmet {{{
 " Expand abbreviation
-let g:user_emmet_leader_key = ',z'
+let g:user_emmet_leader_key = '<C-;>'
 " }}}
 
 " Vimshell {{{
@@ -414,8 +416,7 @@ nnoremap <Leader>mb :MBEToggle<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 
 nnoremap <Leader>t :CtrlP<CR>
-" let's try this one out
-nnoremap - :CtrlP<CR>
+nnoremap <Leader>z :FZF<CR>
 nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>a :CtrlPTag<CR>
 nnoremap <Leader>r :CtrlPGitBranch<CR>
@@ -516,5 +517,7 @@ map <Leader>n :set relativenumber!<CR>:set relativenumber?<CR>
 " 'delete current'
 nnoremap dc 0d$
 nnoremap com :silent !tmux set status<CR>
+nnoremap <F9> :Dispatch<CR>
+inoremap <F9> <ESC>:Dispatch<CR>i
 " }}}
 
