@@ -141,16 +141,6 @@ fun! <SID>CodeReviewMode()
   let &guifont = GetFontName() . ' 15'
 endfun
 com! CodeReviewMode call <SID>CodeReviewMode()
-
-fun! <SID>EndCodeReview()
-  let &guifont = GetFontName() . ' 9'
-endfun
-com! EndCodeReview call <SID>EndCodeReview()
-" }}}
-
-" DetectIndent {{{
-let g:detectindent_preferred_expandtab = 1
-let g:detectindent_preferred_indent = 4
 " }}}
 
 " Syntastic {{{
@@ -197,7 +187,7 @@ nnoremap <Leader>nt :Simplenote -t<CR>
 
 " Emmet {{{
 " Expand abbreviation
-let g:user_emmet_leader_key = '<C-;>'
+let g:user_emmet_leader_key = '<C-y>'
 " }}}
 
 " Vimshell {{{
@@ -305,11 +295,8 @@ augroup END " }}}
 
 augroup omni " {{{
   au!
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType javascript setlocal omnifunc=tern#Complete
   "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd FileType php setlocal omnifunc=
 augroup END " }}}
 
@@ -333,12 +320,7 @@ augroup typescript " {{{
   autocmd FileType typescript let b:vimpipe_command='tsc'
   autocmd FileType typescript let b:vimpipe_filetype='javascript'
   autocmd FileType typescript TSSstarthere
-  autocmd FileType typescript nnoremap <buffer> gd TSSdef
-augroup END " }}}
-
-augroup detectindent " {{{
-  au!
-  autocmd BufReadPost * DetectIndent
+  autocmd FileType typescript nnoremap <buffer> gd :TSSdef<CR>
 augroup END " }}}
 
 augroup jsx " {{{
