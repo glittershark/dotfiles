@@ -2,8 +2,8 @@
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
 
 " let Vundle manage Vundle
 Plugin 'gmarik/vundle'
@@ -87,6 +87,7 @@ Plugin 'vim-php/tagbar-phpctags.vim'
 Plugin 'vim-scripts/haskell.vim'
 Plugin 'wting/rust.vim'
 " }}}
+call vundle#end()
 
 filetype plugin indent on     " required!
 
