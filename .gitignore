@@ -3,3 +3,4 @@
 .vim/session/
 
 .ssh/*
+git rm -r --cached .config/deluge/
