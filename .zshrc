@@ -42,7 +42,7 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="sharkparty"
+ZSH_THEME="bira"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -314,33 +314,6 @@ export GOROOT="/usr/lib/go"
 export GOPATH="/home/smith/code/go"
 # }}}
 
-# Startstuff {{{
-alias startcos='vboxmanage startvm COS-Test --type headless && echo 1 > /tmp/which_cos'
-alias startcos2='vboxmanage startvm COS2-Test --type headless && echo 2 > /tmp/which_cos'
-alias stopcos='vboxmanage controlvm COS-Test savestate'
-alias stopcos2='vboxmanage controlvm COS2-Test savestate'
-function swapcos() {
-case $(< ~/.which_cos) in
-  1)
-    echo -e "\033[01;37m Switching to COS2 \033[00m"
-    vboxmanage controlvm COS-Test savestate || return 1
-    vboxmanage startvm COS2-Test --type headless || return 1
-    rm /Library/WebServer/communityos || return 1
-    ln -s /Library/WebServer/cos2/public /Library/WebServer/communityos || return 1
-    echo 2 > ~/.which_cos
-    ;;
-  2)
-    echo -e "\033[01;37m Switching to COS1 \033[00m"
-    vboxmanage controlvm COS2-Test savestate || return 1
-    vboxmanage startvm COS-Test --type headless || return 1
-    rm /Library/WebServer/communityos || return 1
-    ln -s /Library/WebServer/cos /Library/WebServer/communityos || return 1
-    echo 1 > ~/.which_cos
-    ;;
-esac
-}
-# }}}
-
 # Tail logs {{{
 alias tnotify='tail -f ~/code/notifyserver/nohup.out'
 alias tfc='echo "TODO: make tfc alias"'
@@ -353,16 +326,13 @@ alias tstaw='Xephyr -ac -br -noreset -screen 800x600 :1; DISPLAY=:1; awesome'
 
 # Directories {{{
 alias hks='cd ~/code/hooks'
-alias cos='cd ~/code/cos'
-alias cos2='cd ~/code/cos2'
 alias rtb='cd ~/code/open-source/reactable'
-alias tan='cd ~/code/tangent/tangent'
+alias tan='cd ~/code/tangent'
 alias ddy='cd ~/code/digitaldirectory'
 alias dtf='cd ~/.dotfiles'
 alias csc='cd ~/code/go/src/github.com/glittershark/cascade/'
 
 export PYTHONPATH=$PYTHONPATH:~/code/fredchat
-export GIT_COS_CLONE="/home/smith/code/cos"
 
 export NODE_ENV='development'
 # }}}
@@ -374,16 +344,6 @@ alias bulbasaur='ssh admin@192.168.56.101'
 alias bulba=bulbasaur
 
 alias fhc='ssh -p 2247 zoodle@166.78.141.131'
-
-alias vbox='ssh vladmin@cos.dev'
-alias coral='ssh vladmin@coral.vladmin.net'
-alias ging='ssh vladmin@ginger.vladmin.net'
-alias frog='ssh smith@frogger.vladmin.net'
-alias cali='ssh vladmin@california.vladmin.net'
-alias luigi='ssh vladmin@luigi.vladmin.net'
-alias mario='ssh vladmin@mario.vladmin.net'
-alias calculon='ssh vladmin@calculon.vladmin.net'
-alias flexo='ssh vladmin@flexo.vladmin.net'
 # }}}
 
 # Other Shortcuts {{{
@@ -445,8 +405,6 @@ alias dmo='demo'
 
 alias py=ipython2
 alias py3=ipython
-
-alias cat=dog
 
 alias rnc='sudo systemctl restart $(systemctl | grep netctl-auto | sed -s "s/\\s.*$//")'
 alias rvpn='sudo systemctl restart openvpn@bldr-dev openvpn@lsvl-dev'
