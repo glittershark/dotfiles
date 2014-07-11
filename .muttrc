@@ -164,6 +164,10 @@ bind editor <Tab> complete-query
 macro index,pager a "<pipe-message>goobook add<return>" "add the sender address to Google contacts"
 
 
+# notmuch
+macro index S "<enter-command>unset wait_key<enter><shell-escape>notmuch-mutt -p search -o ~/.mail/temporary/search<enter><change-folder-readonly>+temporary/search<enter>" "search mail (using notmuch)"
+
+
 # Colors {{{
 # custom body highlights -----------------------------------------------
 # highlight my name and other personally relevant strings
