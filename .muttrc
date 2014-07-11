@@ -59,11 +59,6 @@ mailboxes +personal/priority \
           +personal/archive \
           +personal/sent \
           +personal/drafts \
-          +work/priority \
-          +work/INBOX \
-          +work/archive \
-          +work/sent \
-          +work/drafts \
 # }}}
 
 # Other special folders. {{{
@@ -94,7 +89,7 @@ macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "ma
 
 # Sync email
 # macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap to sync all mail"
-macro index <f5> "<shell-escape>tmux splitw -dl 20 \"offlineimap -a work,personal\"<enter>" "run offlineimap to sync priority inbox"
+macro index <f5> "<shell-escape>tmux splitw -dl 20 \"offlineimap-notify\"<enter>" "run offlineimap to sync priority inbox"
 
 # Saner copy/move dialogs
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
@@ -315,7 +310,8 @@ color body blue default "( *[-+=#*~_]){6,}"
 
 # Jump to folders {{{
 macro index,pager gi '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/priority<return>'
-macro index,pager gw '<enter-command>set from="smith@visionlink.org"<enter><change-folder>=work/priority<return>'
+macro index,pager gs '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/sent<return>'
+# macro index,pager gw '<enter-command>set from="smith@visionlink.org"<enter><change-folder>=work/priority<return>'
 # }}}
 
 # vim: set fdm=marker fmr={{{,}}} nowrap:
