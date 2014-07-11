@@ -4,3 +4,8 @@
 
 .ssh/*
 git rm -r --cached .config/deluge/
+.config/deluge
+.config/google-chrome-beta/
+.config/google-chrome/
+.config/pulse
+.config/autostart
