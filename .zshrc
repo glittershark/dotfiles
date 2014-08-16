@@ -31,7 +31,7 @@ bindkey -v
 set -o vi
 umask 022
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-export PATH=~/.cabal/bin:$PATH:/usr/bin/vendor_perl:/usr/bin/core_perl:~/bin:~/npm/bin:~/.gem/ruby/2.1.0/bin:~/.gem/ruby/2.0.0/bin
+export PATH=~/.cabal/bin:$PATH:/usr/bin/vendor_perl:/usr/bin/core_perl:~/bin:~/npm/bin:~/.gem/ruby/2.1.0/bin:~/.gem/ruby/2.0.0/bin:/home/smith/bin
 # }}}
 
 # Oh-My-Zsh {{{
@@ -178,15 +178,19 @@ mkdir -p "$@" && cd "$@"
 # MPD/MPC stuff {{{
 function mp() {
 # Test if drive is already mounted
-if ! lsblk | grep /mnt/external; then
+if ! lsblk | grep /mnt/external >/dev/null; then
   if ! sudo mount /mnt/external; then
     echo "External drive not plugged in"
     return 1
   fi
 fi
-mpd           &&
-  mpdscribble &&
-  ncmpcpp
+  if (mpc >/dev/null 2>&1); then
+    ncmpcpp
+  else
+    mpd &&
+    mpdscribble &&
+    ncmpcpp
+  fi
 }
 
 # kill mp
@@ -210,6 +214,7 @@ mpc search album "$1" | mpc add &&
 # }}}
 
 # Git stuff {{{
+alias git='hub'
 alias g='git'
 alias gnp='git --no-pager'
 # function ga() { git add "${@:-.}"; } # Add all files by default
@@ -326,7 +331,7 @@ alias tstaw='Xephyr -ac -br -noreset -screen 800x600 :1; DISPLAY=:1; awesome'
 
 # Directories {{{
 alias hks='cd ~/code/hooks'
-alias rtb='cd ~/code/open-source/reactable'
+alias rtb='cd ~/code/reactable'
 alias tan='cd ~/code/tangent'
 alias ddy='cd ~/code/digitaldirectory'
 alias dtf='cd ~/.dotfiles'
@@ -355,9 +360,6 @@ alias vi='vim'
 alias virc='vi ~/.zshrc && source ~/.zshrc || echo "Editing failed"'
 alias vivi='vi ~/.vimrc || echo "Editing failed"'
 alias vigit='vi ~/.gitconfig || echo "Editing failed"'
-alias viawe='(cd ~/.config/awesome/ && gvim rc.lua)'
-
-alias rmresolv='sudo rm /etc/resolv.conf'
 # }}}
 
 # XRandR {{{
@@ -371,10 +373,14 @@ v() {
   [ -n "$file" ] && ${EDITOR:-vim} "$file"
 }
 
-# fd - cd to selected directory
 c() {
   local dir
   dir=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf +m) && cd "$dir"
+}
+
+co() {
+  local branch
+  branch=$(git branch -a | sed -s "s/\s*\**//g" | fzf --query="$1" --select-1 --exit-0) && git checkout "$branch"
 }
 
 # fh - repeat history
@@ -399,7 +405,7 @@ kill_detached() {
 # Tangent Stuff {{{
 alias prd='production'
 alias stg='stage'
-alias tst='test'
+alias tst='testt'
 alias dmo='demo'
 # }}}
 
