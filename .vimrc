@@ -32,7 +32,7 @@ set clipboard=unnamedplus
 " set directory=./.backup,.,/tmp
 set foldmarker={{{,}}}
 set colorcolumn=+0
-set concealcursor=nv
+set concealcursor=
 " }}}
 
 " GUI options {{{
@@ -222,6 +222,10 @@ aug Java
   au FileType java setlocal fdm=marker fmr={,}
 aug END
 
+aug Mail
+  au FileType mail setlocal spell
+aug END
+
 let g:haskell_conceal_wide = 1
 " }}}
 
@@ -351,6 +355,11 @@ augroup php " {{{
   au!
 augroup END  "}}}
 
+  augroup rubylang
+    au!
+    autocmd FileType ruby compiler rake
+  augroup END
+  
 " }}}
 
 " Leader commands {{{
