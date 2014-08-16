@@ -1,3 +1,5 @@
+# Muttrc
+
 # Paths {{{
 set folder           = ~/.mail               # mailbox location
 set alias_file       = ~/.mutt/alias         # where to store aliases
@@ -59,6 +61,10 @@ mailboxes +personal/priority \
           +personal/archive \
           +personal/sent \
           +personal/drafts \
+          +tangent/priority \
+          +tangent/INBOX \
+          +landlords/priority \
+          +landlords/INBOX
 # }}}
 
 # Other special folders. {{{
@@ -163,6 +169,8 @@ set query_command="goobook query '%s'"
 bind editor <Tab> complete-query
 macro index,pager a "<pipe-message>goobook add<return>" "add the sender address to Google contacts"
 
+# archiving
+macro index,pager y "<save-message>=personal/archive<enter>" "Archive"
 
 # notmuch
 macro index S "<enter-command>unset wait_key<enter><shell-escape>notmuch-mutt -p search -o ~/.mail/temporary/search<enter><change-folder-readonly>+temporary/search<enter>" "search mail (using notmuch)"
@@ -313,8 +321,10 @@ color body blue default "( *[-+=#*~_]){6,}"
 # }}}
 
 # Jump to folders {{{
+macro index,pager go '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/INBOX<return>'
 macro index,pager gi '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/priority<return>'
 macro index,pager gs '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/sent<return>'
+macro index,pager ga '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/archive<return>'
 # macro index,pager gw '<enter-command>set from="smith@visionlink.org"<enter><change-folder>=work/priority<return>'
 # }}}
 
