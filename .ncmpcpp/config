@@ -12,7 +12,7 @@
 ## file which defines that while launching ncmpcpp.
 ##
 #
-#ncmpcpp_directory = "~/.ncmpcpp"
+ncmpcpp_directory = "~/.ncmpcpp"
 #
 ##
 ## Directory for storing downloaded lyrics. It
@@ -20,7 +20,7 @@
 ## (eg. ncmpc) also use that location.
 ##
 #
-lyrics_directory = "/media/smith/Tallahassee/Music/.lyrics"
+lyrics_directory = "/mnt/external/Music/.lyrics"
 #
 ##### connection settings #####
 #
@@ -30,7 +30,7 @@ mpd_host = "localhost"
 #
 mpd_port = "6600"
 #
-mpd_music_dir = "/media/smith/Tallahassee/Music"
+mpd_music_dir = "/mnt/external/Music"
 #
 #mpd_connection_timeout = "5"
 #
@@ -70,7 +70,7 @@ visualizer_fifo_path = "/tmp/mpd.fifo"
 ## are some problems with it.
 ##
 #
-visualizer_output_name = "My FIFO"
+visualizer_output_name = "Visualizer"
 #
 ##
 ## Note: Below parameter defines how often ncmpcpp
