@@ -215,10 +215,12 @@ aug END
 let g:python_highlight_all=1
 
 aug PHP
+  au!
   "au FileType php setlocal fdm=marker fmr={{{,}}}
 aug END
 
 aug Java
+  au!
   au FileType java setlocal fdm=marker fmr={,}
 aug END
 
@@ -227,6 +229,15 @@ aug Mail
 aug END
 
 let g:haskell_conceal_wide = 1
+
+augroup Ruby " {{{
+  au!
+  " au FileType ruby let b:surround_114 = "\\(module|class,def,if,unless,case,while,until,begin,do) \r end"
+  " au FileType ruby set fdm=syntax
+augroup END
+let g:rubycomplete_rails = 1
+" }}}
+
 " }}}
 
 " Navigate buffers {{{
@@ -297,7 +308,7 @@ augroup END " }}}
 
 augroup sql " {{{
   au!
-  autocmd FileType sql                 let b:vimpipe_command="ssh todo 'psql'"
+  autocmd FileType sql                 let b:vimpipe_command="psql -h 127.0.0.1 landlordsny_development landlordsny"
   autocmd FileType sql                 let b:vimpipe_filetype="postgresql"
   autocmd FileType sql                 set syntax=postgresql
   autocmd FileType postgresql          set nowrap
@@ -308,6 +319,7 @@ augroup markdown " {{{
   au!
   autocmd FileType markdown let b:vimpipe_command='markdown'
   autocmd FileType markdown let b:vimpipe_filetype='html'
+  autocmd FileType markdown set tw=80
 augroup END " }}}
 
 augroup typescript " {{{
@@ -357,7 +369,7 @@ augroup END  "}}}
 
   augroup rubylang
     au!
-    autocmd FileType ruby compiler rake
+    " autocmd FileType ruby compiler rake
   augroup END
   
 " }}}

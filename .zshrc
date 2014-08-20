@@ -330,14 +330,10 @@ alias tstaw='Xephyr -ac -br -noreset -screen 800x600 :1; DISPLAY=:1; awesome'
 # }}}
 
 # Directories {{{
-alias hks='cd ~/code/hooks'
+alias lll='cd ~/code/landlordsny'
 alias rtb='cd ~/code/reactable'
 alias tan='cd ~/code/tangent'
-alias ddy='cd ~/code/digitaldirectory'
 alias dtf='cd ~/.dotfiles'
-alias csc='cd ~/code/go/src/github.com/glittershark/cascade/'
-
-export PYTHONPATH=$PYTHONPATH:~/code/fredchat
 
 export NODE_ENV='development'
 # }}}

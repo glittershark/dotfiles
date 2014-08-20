@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE="/home/smith/.term_dark"
+FILE="$HOME/.term_dark"
 
 if [ "$(< $FILE)" = 't' ]; then
   echo 'f' > $FILE

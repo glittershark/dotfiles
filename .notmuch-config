@@ -11,7 +11,7 @@
 # configured here named ".notmuch".
 #
 [database]
-path=/home/smith/.mail
+path=/home/griffin/.mail
 
 # User configuration
 #
@@ -31,6 +31,7 @@ path=/home/smith/.mail
 [user]
 name=Griffin Smith
 primary_email=wildgriffin45@gmail.com
+other_email=griffin@get-tangent.io;griffin@landlordsny.com
 
 # Configuration for "notmuch new"
 #

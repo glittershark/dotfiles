@@ -325,7 +325,7 @@ macro index,pager go '<enter-command>set from="wildgriffin45@gmail.com"<enter><c
 macro index,pager gi '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/priority<return>'
 macro index,pager gs '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/sent<return>'
 macro index,pager ga '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/archive<return>'
-# macro index,pager gw '<enter-command>set from="smith@visionlink.org"<enter><change-folder>=work/priority<return>'
+macro index,pager gw '<enter-command>set from="griffin@landlordsny.com"<enter><change-folder>=landlords/priority<return>'
 # }}}
 
 # vim: set fdm=marker fmr={{{,}}} nowrap:
