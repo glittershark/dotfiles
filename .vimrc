@@ -367,10 +367,20 @@ augroup php " {{{
   au!
 augroup END  "}}}
 
-  augroup rubylang
-    au!
-    " autocmd FileType ruby compiler rake
-  augroup END
+augroup rubylang " {{{
+  au!
+  autocmd FileType ruby compiler rake
+augroup END " }}}
+
+augroup javascript "{{{
+  au!
+  autocmd FileType javascript let &errorformat = 
+        \ '%E%.%#%n) %s:,' .
+        \ '%C%.%#Error: %m,' .
+        \ '%C%.%#at %s (%f:%l:%c),' .
+        \ '%Z%.%#at %s (%f:%l:%c),' .
+        \ '%-G%.%#,'
+augroup END " }}}
   
 " }}}
 

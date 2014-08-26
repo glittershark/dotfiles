@@ -31,8 +31,7 @@ client.background #002b36
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# font pango:Meslo LG S DZ 13
-font pango:Meslo LG S DZ 7
+font pango:Meslo LG S DZ 9px
 # The font above is very space-efficient, that is, it looks good, sharp and
 # clear in small sizes. However, if you need a lot of unicode glyphs or
 # right-to-left text rendering, you should instead use pango for rendering and
@@ -120,9 +119,9 @@ bindsym XF86AudioPrev exec "mpc previous"
 bindsym XF86KbdBrightnessDown exec "sudo /opt/kbdlight/bin/kbdlight -"
 bindsym XF86KbdBrightnessUp exec "sudo /opt/kbdlight/bin/kbdlight +"
 
-bindsym XF86Eject exec "i3lock -c 002B36"
-bindcode 127 exec "i3lock -c 002B36"
-bindsym Caps_Lock exec "i3lock -c 002B36"
+bindsym XF86Eject exec "/bin/lock"
+bindsym XF86Launch6 exec "/bin/lock"
+bindcode 127 exec "/bin/lock"
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -191,10 +190,9 @@ bindsym $mod+minus scratchpad show
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    status_command i3status -c /home/griffin/.i3status.conf
+    status_command i3status -c /home/smith/.i3status.conf
+    font pango:Meslo LG S DZ 9px
     position top
-    # font pango:Meslo LG S DZ 13
-    font pango:Meslo LG S DZ 7
     colors {
         background #002b36
         statusline #fdf6e3

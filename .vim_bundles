@@ -44,6 +44,7 @@ Plugin 'kana/vim-textobj-user'
 Plugin 'kien/ctrlp.vim'
 Plugin 'krisajenkins/vim-pipe'
 Plugin 'krisajenkins/vim-postgresql-syntax'
+Plugin 'kchmck/vim-coffee-script'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'marijnh/tern_for_vim'
@@ -91,6 +92,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-php/tagbar-phpctags.vim'
 Plugin 'vim-scripts/haskell.vim'
 Plugin 'wting/rust.vim'
+Plugin 'Matt-Deacalion/vim-systemd-syntax'
 " }}}
 call vundle#end()
 

@@ -116,7 +116,7 @@ highlight UsageItem:nth-of-type(2n) background: rgba(0, 43, 54, .04);
 highlight -link=s_base3,s_yellow_back WarningMsg
 set guioptions=bCrns
 set hintkeys=asdfg;lkjh
-set passkeys=mail.google.com:?jkfrcnp,mail.google.com:'!#*+-/<C-Down><C-s><Enter>?INU[]acefjk lmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,yo
+set passkeys=mail.google.com:'!#*+-/<C-Down><C-s><Enter>?INU[]acefjk lmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,yo,feedly.com:gichmatfFCkdplSsnb1234567890/r?jovVMxDe<Return><Esc>
 set strictfocus=google.com:laissez-faire,'chrome:*':laissez-faire,*:moderate
 
 " vim: set ft=pentadactyl:
