@@ -331,6 +331,7 @@ alias tstaw='Xephyr -ac -br -noreset -screen 800x600 :1; DISPLAY=:1; awesome'
 
 # Directories {{{
 alias lll='cd ~/code/landlordsny'
+alias liv='cd ~/code/live'
 alias rtb='cd ~/code/reactable'
 alias tan='cd ~/code/tangent'
 alias dtf='cd ~/.dotfiles'
@@ -339,6 +340,7 @@ export NODE_ENV='development'
 # }}}
 
 # SSH shortcuts {{{
+alias land='ssh landlord@landlordsny.com'
 alias fred='ssh Griffin@24.9.4.108'
 alias pi='ssh pi@192.168.1.13'
 alias bulbasaur='ssh admin@192.168.56.101'
