@@ -6,6 +6,8 @@ source ~/.fzf.zsh
 
 stty -ixon
 
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
+
 # Compinstall {{{
 zstyle ':completion:*' completer _complete _ignored _correct _approximate
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} m:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._- :]=** r:|=**' 'l:|=* r:|=*'
@@ -67,7 +69,7 @@ ZSH_THEME="bira"
 # DISABLE_CORRECTION="true"
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment following line if you want to disable marking untracked files under
 # VCS as dirty. This makes repository status check for large repositories much,
@@ -77,12 +79,35 @@ ZSH_THEME="bira"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git systemd git grunt jira postgres python colorize github battery archlinux git-extras vi-mode themes zsh-syntax-highlighting)
+plugins=(
+  git
+  rails
+  ruby
+  systemd
+  grunt
+  postgres
+  python
+  colorize
+  github
+  battery
+  archlinux
+  git-extras
+  vi-mode
+  themes
+  zsh-syntax-highlighting
+  colorize
+  command-not-found
+  docker
+  github
+  gitignore
+  heroku
+  npm
+)
 
 # }}}
 
 # Zsh highlight highlighters {{{
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern root)
 # }}}
 
 # Fasd {{{
@@ -159,7 +184,8 @@ alias lsd='CLICOLOR_FORCE=1 ll | grep --color=never "^d"'
 # Easier navigation: .., ..., -
 alias ..='cd ..'
 alias ...='cd ../..'
-alias -- -='cd -'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 
 # File size
 alias fs="stat -f '%z bytes'"
@@ -170,7 +196,7 @@ alias dsstore="find . -name '*.DS_Store' -type f -ls -delete"
 
 # Create a new directory and enter it
 function md() {
-mkdir -p "$@" && cd "$@"
+  mkdir -p "$@" && cd "$@"
 }
 
 # }}}
@@ -315,18 +341,13 @@ alias adbdev='adb devices'
 # }}}
 
 # Golang {{{
-export GOROOT="/usr/lib/go"
 export GOPATH="/home/smith/code/go"
 # }}}
 
 # Tail logs {{{
-alias tnotify='tail -f ~/code/notifyserver/nohup.out'
-alias tfc='echo "TODO: make tfc alias"'
 # }}}
 
 # Running stuff {{{
-alias rfc='[[ "$(pwd)" == "$HOME/fredchat/src/client" ]] || pushd ~/code/fredchat/src/client >/dev/null && python fredchat.py && popd >/dev/null'
-alias tstaw='Xephyr -ac -br -noreset -screen 800x600 :1; DISPLAY=:1; awesome'
 # }}}
 
 # Directories {{{
@@ -407,11 +428,23 @@ alias tst='testt'
 alias dmo='demo'
 # }}}
 
-alias py=ipython2
-alias py3=ipython
+# Twitter! {{{
+alias first="awk '{print \$1}'"
 
+# favelast <username>
+function favelast() {
+  t fave $(t tl -l $1 | head -n1 | first)
+}
+
+function rtlast() {
+  t rt $(t tl -l $1 | head -n1 | first)
+}
+# }}}
+
+# Systemd aliases {{{
 alias rnc='sudo systemctl restart $(systemctl | grep netctl-auto | sed -s "s/\\s.*$//")'
 alias rvpn='sudo systemctl restart openvpn@bldr-dev openvpn@lsvl-dev'
+# }}}
 
 alias ift='sudo iftop -i wlp3s0'
 
@@ -421,60 +454,6 @@ alias asdf='asdfghjkl'
 alias asdflkj='asdf'
 # }}}
 
-[ -f ./.fredrc ] && source ./.fredrc
-
-###-begin-npm-completion-### {{{
-#
-# npm command completion script
-#
-# Installation: npm completion >> ~/.bashrc  (or ~/.zshrc)
-# Or, maybe: npm completion > /usr/local/etc/bash_completion.d/npm
-#
-
-COMP_WORDBREAKS=${COMP_WORDBREAKS/=/}
-COMP_WORDBREAKS=${COMP_WORDBREAKS/@/}
-export COMP_WORDBREAKS
-
-if type complete &>/dev/null; then
-  _npm_completion () {
-    local si="$IFS"
-    IFS=$'\n' COMPREPLY=($(COMP_CWORD="$COMP_CWORD" \
-      COMP_LINE="$COMP_LINE" \
-      COMP_POINT="$COMP_POINT" \
-      npm completion -- "${COMP_WORDS[@]}" \
-      2>/dev/null)) || return $?
-    IFS="$si"
-  }
-  complete -F _npm_completion npm
-elif type compdef &>/dev/null; then
-  _npm_completion() {
-    si=$IFS
-    compadd -- $(COMP_CWORD=$((CURRENT-1)) \
-      COMP_LINE=$BUFFER \
-      COMP_POINT=0 \
-      npm completion -- "${words[@]}" \
-      2>/dev/null)
-    IFS=$si
-  }
-  compdef _npm_completion npm
-elif type compctl &>/dev/null; then
-  _npm_completion () {
-    local cword line point words si
-    read -Ac words
-    read -cn cword
-    let cword-=1
-    read -l line
-    read -ln point
-    si="$IFS"
-    IFS=$'\n' reply=($(COMP_CWORD="$cword" \
-      COMP_LINE="$line" \
-      COMP_POINT="$point" \
-      npm completion -- "${words[@]}" \
-      2>/dev/null)) || return $?
-    IFS="$si"
-  }
-  compctl -K _npm_completion npm
-fi
-###-end-npm-completion-### }}}
+[ -f ./.localrc ] && source ./.localrc
 
 source ~/.fzf.zsh
