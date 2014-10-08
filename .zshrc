@@ -44,7 +44,8 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="bira"
+# ZSH_THEME="bira"
+ZSH_THEME="pure"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -80,44 +81,44 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(
-  git
-  rails
-  ruby
-  systemd
-  grunt
-  postgres
-  python
-  colorize
-  github
-  battery
   archlinux
-  git-extras
-  vi-mode
-  themes
-  zsh-syntax-highlighting
+  battery
+  colorize
   colorize
   command-not-found
   docker
+  gem
+  # git
+  # git-extras
+  # zsh-geeknote
+  # geeknote
   github
   gitignore
+  grunt
   heroku
+  node
   npm
+  postgres
+  python
+  rails
+  rake-fast
+  redis
+  ruby
+  systemd
+  themes
+  tmux
+  vagrant
+  vi-mode
+  vim
+  zsh-syntax-highlighting
 )
-
-# }}}
 
 # Zsh highlight highlighters {{{
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern root)
 # }}}
 
-# Fasd {{{
-# eval "$(fasd --init auto)"
-# alias v='f -e vim'
-# alias gv='f -e gvim'
-# alias m='f -e mplayer'
-# }}}
-
 source $ZSH/oh-my-zsh.sh
+# }}}
 
 # Utility Functions {{{
 
@@ -186,6 +187,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
+# alias --='cd -'
 
 # File size
 alias fs="stat -f '%z bytes'"
@@ -353,6 +355,7 @@ export GOPATH="/home/smith/code/go"
 # Directories {{{
 alias lll='cd ~/code/landlordsny'
 alias liv='cd ~/code/live'
+alias sym='cd ~/code/symposium'
 alias rtb='cd ~/code/reactable'
 alias tan='cd ~/code/tangent'
 alias dtf='cd ~/.dotfiles'
@@ -428,6 +431,12 @@ alias tst='testt'
 alias dmo='demo'
 # }}}
 
+# Docker {{{
+alias dockercleancontainers="docker ps -a -notrunc| grep 'Exit' | awk '{print \$1}' | xargs -L 1 -r docker rm"
+alias dockercleanimages="docker images -a -notrunc | grep none | awk '{print \$3}' | xargs -L 1 -r docker rmi"
+alias dockerclean="dockercleancontainers && dockercleanimages"
+# }}}
+
 # Twitter! {{{
 alias first="awk '{print \$1}'"
 
@@ -439,6 +448,19 @@ function favelast() {
 function rtlast() {
   t rt $(t tl -l $1 | head -n1 | first)
 }
+# }}}
+
+# Geeknote {{{
+alias gn=geeknote
+alias gnn='gn notebook-list'
+alias gnt='gn tag-list'
+alias gnf='gn find'
+gnc() {
+  gn create --title $1 --content '' &&
+    gn find --count=1 "$1"
+    gn edit 1
+}
+alias gne='gn edit'
 # }}}
 
 # Systemd aliases {{{
