@@ -1,0 +1,36 @@
+directory: /media/external/Music
+library: /media/external/Music/.library.blb
+
+plugins:
+    - inline
+    - chroma
+    - lyrics
+    - echonest
+    - fetchart
+    - embedart
+    - replaygain
+    - scrub
+    - ftintitle
+    - bpm
+
+import:
+    move: yes
+    resume: ask
+    incremental: yes
+    languages: ['en']
+    group_albums: yes
+
+match:
+    preferred:
+        media: ['CD', 'Digital Media|File']
+        original_year: yes
+
+item_fields:
+    mp3_bitrate: bitrate if format.upper() == 'MP3' else ''
+
+paths:
+    default: "$albumartist/Albums/($year) $album%aunique{catalognum label albumtype, catalognum label albumtype}/$track $title ($mp3_bitrate)"
+    albumtype:ep: "$albumartist/EPs/($year) $album%aunique{catalognum label albumtype, catalognum label albumtype}/$track $title ($mp3_bitrate)"
+
+replace:
+    '^\.': _
