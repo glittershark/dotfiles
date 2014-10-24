@@ -90,7 +90,7 @@ plugins=(
   gem
   # git
   # git-extras
-  # zsh-geeknote
+  zsh-geeknote
   # geeknote
   github
   gitignore
@@ -150,16 +150,17 @@ echo "${t[*]}"
 
 # }}}
 
-# Force screen to use zsh
+# Force screen to use zsh {{{
 alias screen='screen -s /bin/zsh'
+# }}}
 
-alias hackwiz='nethack -p wiz -r elf'
-
+# 256 color terminals {{{
 if [[ $TERM = 'rxvt-unicode' ]]; then
   export TERM=rxvt-unicode-256color
 elif [[ $TERM = 'xterm' ]]; then
   export TERM=xterm-256color
 fi
+# }}}
 
 # Environment {{{
 export EDITOR="/usr/bin/vim"
@@ -432,9 +433,22 @@ alias dmo='demo'
 # }}}
 
 # Docker {{{
-alias dockercleancontainers="docker ps -a -notrunc| grep 'Exit' | awk '{print \$1}' | xargs -L 1 -r docker rm"
-alias dockercleanimages="docker images -a -notrunc | grep none | awk '{print \$3}' | xargs -L 1 -r docker rmi"
+alias dockercleancontainers="docker ps -a --no-trunc| grep 'Exit' | awk '{print \$1}' | xargs -L 1 -r docker rm"
+alias dockercleanimages="docker images -a --no-trunc | grep none | awk '{print \$3}' | xargs -L 1 -r docker rmi"
 alias dockerclean="dockercleancontainers && dockercleanimages"
+# }}}
+
+# Vagrant {{{
+alias vup='vagrant up'
+alias vuu='vagrant up || vagrant up'
+alias vds='vagrant destroy'
+alias vdf='vagrant destroy -f'
+alias vsu='vagrant suspend'
+alias vhl='vagrant halt'
+alias vssh='vagrant ssh'
+alias vmy="vagrant ssh -c '~/mysql'"
+alias vr='vdf && vup'
+alias vrw='vdf web && vup web --provider docker'
 # }}}
 
 # Twitter! {{{
@@ -466,9 +480,8 @@ alias gne='gn edit'
 # Systemd aliases {{{
 alias rnc='sudo systemctl restart $(systemctl | grep netctl-auto | sed -s "s/\\s.*$//")'
 alias rvpn='sudo systemctl restart openvpn@bldr-dev openvpn@lsvl-dev'
-# }}}
-
 alias ift='sudo iftop -i wlp3s0'
+# }}}
 
 # {{{
 alias asdfghjkl='echo "Having some trouble?"'
