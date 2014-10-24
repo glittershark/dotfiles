@@ -5,7 +5,6 @@ plugins:
     - inline
     - chroma
     - lyrics
-    - echonest
     - fetchart
     - embedart
     - replaygain
@@ -18,7 +17,6 @@ import:
     resume: ask
     incremental: yes
     languages: ['en']
-    group_albums: yes
 
 match:
     preferred:
@@ -26,7 +24,7 @@ match:
         original_year: yes
 
 item_fields:
-    mp3_bitrate: bitrate if format.upper() == 'MP3' else ''
+    mp3_bitrate: ('%dkbps' % (bitrate // 1000)) if format.upper() == 'MP3' else ''
 
 paths:
     default: "$albumartist/Albums/($year) $album%aunique{catalognum label albumtype, catalognum label albumtype}/$track $title ($mp3_bitrate)"

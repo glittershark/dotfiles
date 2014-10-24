@@ -10,3 +10,5 @@ git rm -r --cached .config/deluge/
 .config/pulse
 .config/autostart
 .config/hub
+.config/beets/library.db
+.config/beets/state.pickle
