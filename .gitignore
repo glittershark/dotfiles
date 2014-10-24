@@ -12,3 +12,4 @@ git rm -r --cached .config/deluge/
 .config/hub
 .config/beets/library.db
 .config/beets/state.pickle
+.config/gtk-2.0/gtkfilechooser.ini
