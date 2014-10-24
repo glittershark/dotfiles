@@ -1,0 +1,3 @@
+# vim: ft=desktop:
+[Default Applications]
+text/html=firefox.desktop;
