@@ -50,21 +50,22 @@ hdr_order from: to: cc: date: subject:  # and in this order
 # Account Settings {{{
 
 # Default inbox.
-set spoolfile = "+personal/priority"
+set spoolfile = "+personal/INBOX"
 
 # Alternate email addresses.
 alternates smith@visionlink.org griffin@get-tangent.io
 
 # Mailboxes to show in the sidebar.
-mailboxes +personal/priority \
-          +personal/INBOX \
+mailboxes +personal/INBOX \
           +personal/archive \
           +personal/sent \
           +personal/drafts \
-          +tangent/priority \
           +tangent/INBOX \
-          +landlords/priority \
-          +landlords/INBOX
+          +landlords/INBOX \
+          +landlords/archive \
+          +landlords/sent \
+          +landlords/drafts \
+          +info/INBOX \ 
 # }}}
 
 # Other special folders. {{{
@@ -94,8 +95,7 @@ bind index <space>  collapse-thread
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
 
 # Sync email
-# macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap to sync all mail"
-macro index <f5> "<shell-escape>tmux splitw -dl 20 \"offlineimap-notify\"<enter>" "run offlineimap to sync priority inbox"
+macro index <f5> "<shell-escape>tmux splitw -dl 20 \"offlineimap-notify -a personal -a tangent -a landlords && sleep 1\"<enter>" "run offlineimap to sync mail"
 
 # Saner copy/move dialogs
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
@@ -316,16 +316,14 @@ color body blue default "( *[-+=#*~_]){6,}"
 
 # folder-hook . "color status brightblack J_status "
 # folder-hook gmail/inbox "color status brightblack yellow "
-# folder-hook personal/priority "color status brightblack brightwhite "
 
 # }}}
 
 # Jump to folders {{{
-macro index,pager go '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/INBOX<return>'
-macro index,pager gi '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/priority<return>'
+macro index,pager gi '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/INBOX<return>'
 macro index,pager gs '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/sent<return>'
 macro index,pager ga '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/archive<return>'
-macro index,pager gw '<enter-command>set from="griffin@landlordsny.com"<enter><change-folder>=landlords/priority<return>'
+macro index,pager gw '<enter-command>set from="griffin@landlordsny.com"<enter><change-folder>=landlords/INBOX<return>'
 # }}}
 
 # vim: set fdm=marker fmr={{{,}}} nowrap:
