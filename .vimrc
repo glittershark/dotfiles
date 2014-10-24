@@ -31,7 +31,7 @@ set clipboard=unnamedplus
 "set backupdir=./.backup,.,/tmp
 " set directory=./.backup,.,/tmp
 set foldmarker={{{,}}}
-set colorcolumn=+0
+set colorcolumn=+1
 set concealcursor=
 " }}}
 
@@ -96,6 +96,7 @@ let g:vdebug_options = {'server': '192.168.56.1'}
 
 " VimPipe Commands {{{
 " let g:sql_type_default = 'pgsql'
+command! SqlLive let b:vimpipe_command="vagrant ssh -c '~/mysql'"
 " }}}
 
 " Statusline {{{
@@ -140,10 +141,19 @@ let g:syntastic_enable_signs = 0
 " Python {{{
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_python_flake8_post_args = "--ignore=E101,E223,E224,E301,E302,E303,E501,E701,W,F401,E111,E261"
-" }}} Python
 
+" }}} 
 " Javascript {{{
 let g:syntastic_javascript_checkers = ['jshint']
+
+" }}}
+" Haml {{{
+let g:syntastic_haml_checkers = ['haml_lint']
+
+" }}}
+" Html {{{
+let g:syntastic_html_checkers = []
+
 " }}}
 " }}}
 
@@ -174,6 +184,10 @@ nnoremap <Leader>nn :Simplenote -n<CR>
 nnoremap <Leader>nl :Simplenote -l<CR>
 nnoremap <Leader>nw :Simplenote -l work<CR>
 nnoremap <Leader>nt :Simplenote -t<CR>
+" }}}
+
+" Evernote {{{
+source ~/.evernoterc
 " }}}
 
 " Emmet {{{
@@ -234,8 +248,11 @@ augroup Ruby " {{{
   au!
   " au FileType ruby let b:surround_114 = "\\(module|class,def,if,unless,case,while,until,begin,do) \r end"
   " au FileType ruby set fdm=syntax
+  au FileType ruby set tw=80
+  au FileType haml set tw=80
 augroup END
 let g:rubycomplete_rails = 1
+command! -range ConvertHashSyntax <line1>,<line2>s/:(\S{-})(\s{-})=> /\1:\2/
 " }}}
 
 " }}}
@@ -264,7 +281,7 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 augroup striptrailingwhitespaces " {{{
-autocmd FileType c,cpp,java,php,ruby,python,sql,javascript,sh,jst,less,haskell
+autocmd FileType c,cpp,java,php,ruby,python,sql,javascript,sh,jst,less,haskell,haml,coffee
   \ autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 augroup END " }}}
 
