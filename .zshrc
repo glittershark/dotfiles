@@ -207,26 +207,33 @@ function md() {
 # MPD/MPC stuff {{{
 function mp() {
 # Test if drive is already mounted
-if ! lsblk | grep /mnt/external >/dev/null; then
-  if ! sudo mount /mnt/external; then
-    echo "External drive not plugged in"
+if ! lsblk | grep /media/external >/dev/null; then
+  if ! sudo mount -t exfat /dev/sdb1 /media/external; then
+    echo "External drive not plugged in, or could not mount"
     return 1
   fi
 fi
-  if (mpc >/dev/null 2>&1); then
-    ncmpcpp
-  else
-    mpd &&
+if (mpc >/dev/null 2>&1); then
+  ncmpcpp
+else
+  mpd &&
     mpdscribble &&
     ncmpcpp
-  fi
+fi
 }
 
 # kill mp
 function kmp() {
 killall ncmpcpp
 mpd --kill
-sudo umount /mnt/external
+if local files=$(lsof 2>&1 | grep -v docker | grep external); then
+  echo
+  echo "==> Still processes using external drive:"
+  echo
+  echo files
+else
+  sudo umount /media/external
+fi
 }
 
 alias mpl='mpc playlist'
