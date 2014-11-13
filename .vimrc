@@ -263,13 +263,12 @@ nnoremap gB :bp<CR>
 " }}}
 
 " Window Navigation {{{
-nnoremap ;w <C-w>
-nnoremap ;h <C-w>h
-nnoremap ;j <C-w>j
-nnoremap ;k <C-w>k
-nnoremap ;l <C-w>l
-nnoremap ;z <C-w>z
-nnoremap ;; ;
+nnoremap <space>w <C-w>
+nnoremap <space>h <C-w>h
+nnoremap <space>j <C-w>j
+nnoremap <space>k <C-w>k
+nnoremap <space>l <C-w>l
+nnoremap <space>z <C-w>z
 " }}}
 
 " Remove trailing whitespace {{{
