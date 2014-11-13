@@ -418,17 +418,6 @@ nnoremap <Leader>en :Simplenote -o notes<CR>
 nnoremap <Leader>el :EditSqlTempFile<CR>
 " }}}
 
-" Comment current line (makes commentary.vim behave like nerdcommenter,
-" because my muscle memory is stubborn)
-nmap <leader>cc gcc
-
-" Edit on servers {{{
-" The following commands will only work if the cwd is
-" /Library/WebServer/communityos, which it usually is
-nnoremap <Leader>ec :e scp://vladmin@coral.vladmin.net//Library/WebServer/communityos/%<CR>
-nnoremap <Leader>ep :e scp://vladmin@pacific.vladmin.net//Library/WebServer/communityos/%<CR>
-" }}}
-
 " Toggle navigation panels {{{
 nnoremap <leader>f :NERDTreeToggle<CR>
 nnoremap <Leader>l :TagbarToggle<CR>
