@@ -439,13 +439,17 @@ nnoremap <leader>fcc :cd ~/code/fredchat/src/client<CR>
 
 " Git leader commands {{{
 noremap <Leader>g :Git<SPACE>
+noremap <Leader>gu :Gpull<CR>
+noremap <Leader>gp :Gpush<CR>
 noremap <Leader>s :Gstatus<CR>
 noremap <Leader>cv :Gcommit --verbose<CR>
+noremap <Leader>ca :Gcommit --verbose --amend<CR>
 
 nnoremap <Leader>dl :diffg LOCAL<CR>
 nnoremap <Leader>dr :diffg REMOTE<CR>
 nnoremap <Leader>db :diffg BASE<CR>
 nnoremap <Leader>du :diffu<CR>
+nnoremap <Leader>dg :diffg<CR>
 
 nnoremap <Leader>d2 :diffg //2<CR>:diffu<CR>
 nnoremap <Leader>d3 :diffg //3<CR>:diffu<CR>
