@@ -97,6 +97,7 @@ let g:vdebug_options = {'server': '192.168.56.1'}
 " VimPipe Commands {{{
 " let g:sql_type_default = 'pgsql'
 command! SqlLive let b:vimpipe_command="vagrant ssh -c '~/mysql'"
+command! SqlRails let b:vimpipe_command="bin/rails dbconsole"
 " }}}
 
 " Statusline {{{
