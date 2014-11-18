@@ -11,9 +11,10 @@ plugins:
     - scrub
     - ftintitle
     - bpm
+    - mpdupdate
 
 import:
-    move: yes
+    # move: yes
     resume: ask
     incremental: yes
     languages: ['en']
@@ -24,11 +25,11 @@ match:
         original_year: yes
 
 item_fields:
-    mp3_bitrate: ('%dkbps' % (bitrate // 1000)) if format.upper() == 'MP3' else ''
+    mp3_bitrate: (' (%dkbps)' % (bitrate // 1000)) if format.upper() == 'MP3' else ''
 
 paths:
-    default: "$albumartist/Albums/($year) $album%aunique{catalognum label albumtype, catalognum label albumtype}/$track $title ($mp3_bitrate)"
-    albumtype:ep: "$albumartist/EPs/($year) $album%aunique{catalognum label albumtype, catalognum label albumtype}/$track $title ($mp3_bitrate)"
+    default: "$albumartist/Albums/($year) $album%aunique{catalognum label albumtype, catalognum label albumtype}/$track $title$mp3_bitrate"
+    albumtype:ep: "$albumartist/EPs/($year) $album%aunique{catalognum label albumtype, catalognum label albumtype}/$track $title$mp3_bitrate"
 
-replace:
-    '^\.': _
+# replace:
+    # '^\.''":': _
