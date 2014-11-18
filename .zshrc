@@ -226,11 +226,14 @@ fi
 function kmp() {
 killall ncmpcpp
 mpd --kill
-if local files=$(lsof 2>&1 | grep -v docker | grep external); then
+
+local files
+
+if (files=$(lsof 2>&1 | grep -v docker | grep external)); then
   echo
   echo "==> Still processes using external drive:"
   echo
-  echo files
+  echo $files
 else
   sudo umount /media/external
 fi
@@ -490,10 +493,11 @@ alias rvpn='sudo systemctl restart openvpn@bldr-dev openvpn@lsvl-dev'
 alias ift='sudo iftop -i wlp3s0'
 # }}}
 
-# {{{
+# Misc aliases {{{
 alias asdfghjkl='echo "Having some trouble?"'
 alias asdf='asdfghjkl'
 alias asdflkj='asdf'
+alias xmm='xmodmap ~/.Xmodmap'
 # }}}
 
 [ -f ./.localrc ] && source ./.localrc
