@@ -70,8 +70,21 @@ colorscheme solarized
 
 " ---------------------------------------------------------------------------
 
-" IndentLine {{{
-let g:indentLine_char = '│'
+" YouCompleteMe {{{
+let g:ycm_semantic_triggers =  {
+      \   'c' : ['->', '.'],
+      \   'objc' : ['->', '.'],
+      \   'ocaml' : ['.', '#'],
+      \   'cpp,objcpp' : ['->', '.', '::'],
+      \   'perl' : ['->'],
+      \   'php' : ['->', '::'],
+      \   'cs,java,javascript,d,python,perl6,scala,vb,elixir,go' : ['.'],
+      \   'vim' : ['re![_a-zA-Z]+[_\w]*\.'],
+      \   'ruby' : ['.', '::'],
+      \   'lua' : ['.', ':'],
+      \   'erlang' : [':'],
+      \   'clojure' : ['(', '.', '/', '[']
+      \ }
 " }}}
 
 " Tagbar options {{{
