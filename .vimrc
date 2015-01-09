@@ -33,6 +33,7 @@ set clipboard=unnamedplus
 set foldmarker={{{,}}}
 set colorcolumn=+1
 set concealcursor=
+set formatoptions+=j
 " }}}
 
 " GUI options {{{
