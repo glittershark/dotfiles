@@ -96,6 +96,7 @@ plugins=(
   gitignore
   grunt
   heroku
+  lein
   node
   npm
   postgres
