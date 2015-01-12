@@ -346,6 +346,10 @@ else
   GLOBIGNORE=$ORIG_GLOBIGNORE
 fi
 }
+
+function vconflicts() {
+$EDITOR $(git status --porcelain | awk '/^UU/ { print $2 }')
+}
 # }}}
 
 # adb {{{
