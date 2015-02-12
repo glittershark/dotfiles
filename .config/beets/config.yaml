@@ -12,6 +12,8 @@ plugins:
     - ftintitle
     - bpm
     - mpdupdate
+    - random
+    - mbsync
 
 import:
     # move: yes
