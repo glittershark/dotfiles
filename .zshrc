@@ -33,7 +33,7 @@ bindkey -v
 set -o vi
 umask 022
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-export PATH=~/.cabal/bin:$PATH:/usr/bin/vendor_perl:/usr/bin/core_perl:~/bin:~/npm/bin:~/.gem/ruby/2.1.0/bin:~/.gem/ruby/2.0.0/bin:/home/smith/bin
+export PATH=~/.cabal/bin:$PATH:/usr/bin/vendor_perl:/usr/bin/core_perl:~/code/go/bin:~/bin:~/npm/bin:~/.gem/ruby/2.1.0/bin:~/.gem/ruby/2.0.0/bin:/home/smith/bin
 # }}}
 
 # Oh-My-Zsh {{{
@@ -119,6 +119,10 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern root)
 # }}}
 
 source $ZSH/oh-my-zsh.sh
+# }}}
+
+# More basic options {{{
+setopt no_hist_verify
 # }}}
 
 # Utility Functions {{{
@@ -293,7 +297,7 @@ alias grhh='grh HEAD'
 alias grs='gr --soft'
 alias gcl='git clone'
 alias gcd='git rev-parse 2>/dev/null && cd "./$(git rev-parse --show-cdup)"'
-alias gbt='git vl branch'
+alias gpr='g pull-request'
 
 # open all changed files (that still actually exist) in the editor
 function ged() {
@@ -359,7 +363,7 @@ alias adbdev='adb devices'
 # }}}
 
 # Golang {{{
-export GOPATH="/home/smith/code/go"
+export GOPATH="/home/griffin/code/go"
 # }}}
 
 # Tail logs {{{
@@ -375,12 +379,13 @@ alias sym='cd ~/code/symposium'
 alias rtb='cd ~/code/reactable'
 alias tan='cd ~/code/tangent'
 alias dtf='cd ~/.dotfiles'
+alias clt='cd ~/code/clojure/tangent/tangent'
 
 export NODE_ENV='development'
 # }}}
 
 # SSH shortcuts {{{
-alias land='ssh landlord@landlordsny.com'
+alias land='ssh landlord@old.landlordsny.com'
 alias fred='ssh Griffin@24.9.4.108'
 alias pi='ssh pi@192.168.1.13'
 alias bulbasaur='ssh admin@192.168.56.101'
@@ -503,6 +508,13 @@ alias asdfghjkl='echo "Having some trouble?"'
 alias asdf='asdfghjkl'
 alias asdflkj='asdf'
 alias xmm='xmodmap ~/.Xmodmap'
+alias bak='~/bin/backup.sh'
+# }}}
+
+# Grep options {{{
+alias grep="grep $GREP_OPTIONS"
+unset GREP_OPTIONS
+export GREP_OPTIONS=
 # }}}
 
 [ -f ./.localrc ] && source ./.localrc
