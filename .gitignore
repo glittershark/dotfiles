@@ -14,3 +14,4 @@ git rm -r --cached .config/deluge/
 .config/beets/state.pickle
 .config/gtk-2.0/gtkfilechooser.ini
 .config/aurvote
+.vim/undo/

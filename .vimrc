@@ -26,6 +26,8 @@ set laststatus=2
 set hidden
 let mapleader = ','
 let maplocalleader = '\'
+set undofile
+set undodir=~/.vim/undo
 set wildignore=*.pyc,*.o,.git
 set clipboard=unnamedplus
 "set backupdir=./.backup,.,/tmp
@@ -83,8 +85,9 @@ let g:ycm_semantic_triggers =  {
       \   'ruby' : ['.', '::'],
       \   'lua' : ['.', ':'],
       \   'erlang' : [':'],
-      \   'clojure' : ['(', '.', '/', '[']
+      \   'clojure' : []
       \ }
+      " \   'clojure' : ['(', '.', '/', '[']
 " }}}
 
 " Tagbar options {{{
@@ -159,7 +162,13 @@ let g:syntastic_python_flake8_post_args = "--ignore=E101,E223,E224,E301,E302,E30
 
 " }}} 
 " Javascript {{{
-let g:syntastic_javascript_checkers = ['jshint']
+augroup syntastic_javascript_jsx
+  autocmd!
+  autocmd BufReadPre,BufNewFile *.js 
+        \ let g:syntastic_javascript_checkers = ['jshint']
+  autocmd BufReadPre,BufNewFile *.jsx
+        \ let g:syntastic_javascript_checkers = ['jsxhint']
+augroup END
 
 " }}}
 " Haml {{{
@@ -169,6 +178,10 @@ let g:syntastic_haml_checkers = ['haml_lint']
 " Html {{{
 let g:syntastic_html_checkers = []
 
+" }}}
+
+" Ruby {{{
+let g:syntastic_ruby_checkers = ['rubocop']
 " }}}
 " }}}
 
@@ -229,6 +242,10 @@ let g:abolish_save_file = expand('~/.vim/after/plugin/abolish.vim')
 let g:mustache_abbreviations = 1
 " }}}
 
+" AutoPairs {{{
+let g:AutoPairsCenterLine = 0
+" }}}
+
 " Filetypes {{{
 au BufRead,BufNewFile *.tml set filetype=witango syntax=html
 au BufRead,BufNewFile *.phtml set filetype=php
@@ -257,19 +274,48 @@ aug Mail
   au FileType mail setlocal spell
 aug END
 
+" Haskell {{{
 let g:haskell_conceal_wide = 1
+" }}}
 
-augroup Ruby " {{{
+" Ruby {{{
+augroup Ruby 
   au!
   " au FileType ruby let b:surround_114 = "\\(module|class,def,if,unless,case,while,until,begin,do) \r end"
   " au FileType ruby set fdm=syntax
   au FileType ruby set tw=80
   au FileType haml set tw=80
 augroup END
+
+let ruby_operators = 1
+let ruby_space_errors = 1
+
 let g:rubycomplete_rails = 1
 command! -range ConvertHashSyntax <line1>,<line2>s/:(\S{-})(\s{-})=> /\1:\2/
 " }}}
 
+" Clojure {{{
+
+aug Clojure
+  au!
+  autocmd FileType clojure nnoremap <C-S> :Slamhound<CR>
+  let g:clojure_align_multiline_strings = 1
+  let g:clojure_fuzzy_indent_patterns = 
+        \ ['^with', '^def', '^let', '^fact']
+  let g:clojure_special_indent_words =
+        \ 'deftype,defrecord,reify,proxy,extend-type,extend-protocol,letfn,html'
+
+  autocmd FileType clojure setlocal lispwords+=GET,POST,PATCH,PUT,DELETE |
+        \ setlocal lispwords+=context
+  autocmd BufNewFile,BufReadPost *.cljx setfiletype clojure
+  autocmd BufNewFile,BufReadPost *.cljx setlocal omnifunc=
+  autocmd BufNewFile,BufReadPost *.cljs setlocal omnifunc=
+aug END
+
+command! TangentConnect Connect nrepl://localhost:7888 
+      \ ~/code/clojure/tangent/tangent
+
+" }}}
 " }}}
 
 " Navigate buffers {{{
@@ -295,7 +341,7 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 augroup striptrailingwhitespaces " {{{
-autocmd FileType c,cpp,java,php,ruby,python,sql,javascript,sh,jst,less,haskell,haml,coffee
+autocmd FileType c,cpp,java,php,ruby,python,sql,javascript,sh,jst,less,haskell,haml,coffee,scss,clojure
   \ autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 augroup END " }}}
 
@@ -363,7 +409,7 @@ augroup END " }}}
 
 augroup jsx " {{{
   au!
-  autocmd FileType jsx set syntax=javascript
+  " autocmd FileType jsx set syntax=javascript
 augroup END " }}}
 
 augroup nicefoldmethod " {{{

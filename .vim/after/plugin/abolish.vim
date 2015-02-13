@@ -25,3 +25,11 @@ Abolish hlep help
 Abolish elhp help
 Abolish foregin foreign
 Abolish foregin_key foreign_key
+Abolish develoment development
+Abolish develpment development
+Abolish funciton function
+Abolish resonse response
+Abolish htink think
+Abolish whihc which
+Abolish ciontext context
+Abolish seciton section
