@@ -123,6 +123,7 @@ source $ZSH/oh-my-zsh.sh
 
 # More basic options {{{
 setopt no_hist_verify
+setopt histignorespace
 # }}}
 
 # Utility Functions {{{
@@ -298,6 +299,7 @@ alias grs='gr --soft'
 alias gcl='git clone'
 alias gcd='git rev-parse 2>/dev/null && cd "./$(git rev-parse --show-cdup)"'
 alias gpr='g pull-request'
+alias gwip='git add . && git commit -am wip'
 
 # open all changed files (that still actually exist) in the editor
 function ged() {
