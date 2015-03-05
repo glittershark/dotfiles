@@ -115,6 +115,7 @@ let g:vdebug_options = {'server': '192.168.56.1'}
 " let g:sql_type_default = 'pgsql'
 command! SqlLive let b:vimpipe_command="vagrant ssh -c '~/mysql'"
 command! SqlRails let b:vimpipe_command="bin/rails dbconsole"
+command! SqlHeroku let b:vimpipe_command="heroku pg:psql"
 " }}}
 
 " Statusline {{{
@@ -179,9 +180,11 @@ let g:syntastic_haml_checkers = ['haml_lint']
 let g:syntastic_html_checkers = []
 
 " }}}
-
 " Ruby {{{
 let g:syntastic_ruby_checkers = ['rubocop']
+" }}}
+" SASS/SCSS {{{
+let g:syntastic_scss_checkers = ['scss_lint']
 " }}}
 " }}}
 
@@ -592,5 +595,36 @@ nnoremap dc 0d$
 nnoremap com :silent !tmux set status<CR>
 nnoremap <F9> :Dispatch<CR>
 inoremap <F9> <ESC>:Dispatch<CR>i
+
+" Sort with motion {{{
+if !exists("g:sort_motion_flags")
+  let g:sort_motion_flags = ""
+endif
+function! s:sort_motion(mode) abort
+  if a:mode == 'line'
+    execute "'[,']sort " . g:sort_motion_flags
+  elseif a:mode == 'char'
+    execute "normal! `[v`]y"
+    let sorted = join(sort(split(@@, ', ')), ', ')
+    execute "normal! v`]c" . sorted
+  elseif a:mode == 'V' || a:mode == ''
+    execute "'<,'>sort " . g:sort_motion_flags
+  endif
+endfunction
+
+function! s:sort_lines() 
+  let beginning = line('.')
+  let end = v:count + beginning - 1
+  execute beginning . ',' . end . 'sort' 
+endfunction
+
+xnoremap <silent> <Plug>SortMotionVisual :<C-U>call <SID>sort_motion(visualmode())<CR>
+nnoremap <silent> <Plug>SortMotion :<C-U>set opfunc=<SID>sort_motion<CR>g@
+nnoremap <silent> <Plug>SortLines :<C-U>call <SID>sort_lines()<CR>
+
+map go <Plug>SortMotion
+vmap go <Plug>SortMotionVisual
+map goo <Plug>SortLines
+" }}}
 " }}}
 
