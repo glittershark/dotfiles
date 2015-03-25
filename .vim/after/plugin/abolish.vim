@@ -33,3 +33,5 @@ Abolish htink think
 Abolish whihc which
 Abolish ciontext context
 Abolish seciton section
+Abolish icnlude include
+Abolish tyep type
