@@ -7,8 +7,6 @@ plugins:
     - lyrics
     - fetchart
     - embedart
-    - replaygain
-    - scrub
     - ftintitle
     - bpm
     - mpdupdate
