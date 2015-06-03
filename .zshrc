@@ -223,7 +223,7 @@ if (mpc >/dev/null 2>&1); then
   ncmpcpp
 else
   mpd &&
-    mpdscribble &&
+    (pgrep mpdscribble || mpdscribble) &&
     ncmpcpp
 fi
 }
