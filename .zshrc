@@ -398,10 +398,6 @@ alias bulba=bulbasaur
 alias fhc='ssh -p 2247 zoodle@166.78.141.131'
 # }}}
 
-# Other Shortcuts {{{
-alias tanmongo='mongo ds027789.mongolab.com:27789/heroku_app21393669 -u gsmith'
-# }}}
-
 # Editing config files {{{
 alias vi='vim'
 alias virc='vi ~/.zshrc && source ~/.zshrc || echo "Editing failed"'
