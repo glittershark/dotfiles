@@ -389,13 +389,6 @@ export NODE_ENV='development'
 # }}}
 
 # SSH shortcuts {{{
-alias land='ssh landlord@old.landlordsny.com'
-alias fred='ssh Griffin@24.9.4.108'
-alias pi='ssh pi@192.168.1.13'
-alias bulbasaur='ssh admin@192.168.56.101'
-alias bulba=bulbasaur
-
-alias fhc='ssh -p 2247 zoodle@166.78.141.131'
 # }}}
 
 # Editing config files {{{
