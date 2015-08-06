@@ -321,32 +321,36 @@ let g:AutoPairsCenterLine = 0
 " }}}
 
 " Filetypes {{{
-au BufRead,BufNewFile *.tml set filetype=witango syntax=html
 au BufRead,BufNewFile *.phtml set filetype=php
 au BufRead,BufNewFile *.php.*tmp set filetype=php syntax=php
 au BufRead,BufNewFile *.phtml.*tmp set filetype=php syntax=php
 au BufRead *.tml,*.taf silent! %s//\r/g | setlocal foldmethod=manual |
   \ setlocal noexpandtab | map <Leader>h :set syntax=html<CR>
 
-aug Python
+" Python {{{
+aug Python 
   au!
   au FileType python set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
 aug END
 let g:python_highlight_all=1
+" }}}
 
+" PHP {{{
 aug PHP
   au!
   "au FileType php setlocal fdm=marker fmr={{{,}}}
-aug END
+aug END " }}}
 
-aug Java
+" Java {{{
+aug Java 
   au!
   au FileType java setlocal fdm=marker fmr={,}
-aug END
+aug END " }}}
 
-aug Mail
+" Mail {{{
+aug Mail 
   au FileType mail setlocal spell
-aug END
+aug END " }}}
 
 " Haskell {{{
 let g:haskell_conceal_wide = 1
@@ -389,6 +393,42 @@ aug END
 command! TangentConnect Connect nrepl://localhost:7888 
       \ ~/code/clojure/tangent/tangent
 
+" }}}
+
+" Go {{{
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
+augroup Go
+  autocmd!
+  autocmd FileType go setlocal omnifunc=go#complete#Complete
+  autocmd FileType go setlocal foldmethod=syntax
+  autocmd FileType go setlocal foldlevel=100
+  autocmd FileType go nnoremap <buffer> <F9> :GoTest<CR>
+  autocmd FileType go inoremap <buffer> <F9> <ESC>:GoTest<CR>i
+augroup END
+
+" }}}
+
+" RAML {{{
+
+function! s:buffer_syntax() " {{{
+  syn keyword ramlRAML          RAML             contained
+  syn match   ramlVersionString '^#%RAML \d\.\d' contains=ramlRAML
+endfunction " }}}
+
+augroup RAML
+  autocmd!
+  autocmd BufRead,BufNewFile *.raml set filetype=yaml
+  autocmd BufRead,BufNewFile *.raml call s:buffer_syntax()
+augroup END
+
+hi def link ramlVersionString Special
+hi def link ramlRAML Error
 " }}}
 " }}}
 
@@ -665,6 +705,7 @@ map <Leader>n :set relativenumber!<CR>:set relativenumber?<CR>
 nnoremap dc 0d$
 nnoremap com :silent !tmux set status<CR>
 nnoremap <F9> :Dispatch<CR>
+nnoremap g<CR> :Make<CR>
 inoremap <F9> <ESC>:Dispatch<CR>i
 
 " Sort with motion {{{
