@@ -341,11 +341,6 @@ let g:AutoPairsCenterLine = 0
 " }}}
 
 " Filetypes {{{
-au BufRead,BufNewFile *.phtml set filetype=php
-au BufRead,BufNewFile *.php.*tmp set filetype=php syntax=php
-au BufRead,BufNewFile *.phtml.*tmp set filetype=php syntax=php
-au BufRead *.tml,*.taf silent! %s//\r/g | setlocal foldmethod=manual |
-  \ setlocal noexpandtab | map <Leader>h :set syntax=html<CR>
 
 " Python {{{
 aug Python 
@@ -471,20 +466,23 @@ augroup END
 hi def link ramlVersionString Special
 hi def link ramlRAML Error
 " }}}
+
+" Mustache/Handlebars {{{
+let g:mustache_abbreviations = 1
 " }}}
 
-" Navigate buffers {{{
-nnoremap gb :bn<CR>
-nnoremap gB :bp<CR>
-" }}}
+" Netrw {{{
+augroup netrw
+  autocmd!
+  autocmd FileType netrw nnoremap <buffer> Q :Rexplore<CR>
 
-" Window Navigation {{{
-nnoremap <space>w <C-w>
-nnoremap <space>h <C-w>h
-nnoremap <space>j <C-w>j
-nnoremap <space>k <C-w>k
-nnoremap <space>l <C-w>l
-nnoremap <space>z <C-w>z
+  " Hee hee, oil and vinegar
+  function! s:setup_oil() abort
+    nnoremap <buffer> q <C-6>
+    xnoremap <buffer> q <C-6>
+  endfunction
+augroup END
+" }}}
 " }}}
 
 " Remove trailing whitespace {{{
@@ -521,6 +519,15 @@ command! -range DoubleIndentation <line1>,<line2>s/^\(\s.\{-}\)\(\S\)/\1\1\2/
 
 " Quick-and-dirty fix capitalization of sql files
 command! -range FixSqlCapitalization <line1>,<line2>v/\v(^\s*--.*$)|(TG_)/norm guu
+
+" VimPipe Commands {{{
+" let g:sql_type_default = 'pgsql'
+command! SqlLive let b:vimpipe_command="vagrant ssh -c '~/mysql'"
+command! SqlRails let b:vimpipe_command="bin/rails dbconsole"
+command! SqlHeroku let b:vimpipe_command="heroku pg:psql"
+command! SqlEntities let b:vimpipe_command="psql -h 127.1 entities nomi"
+command! SqlUsers let b:vimpipe_command="psql -h 127.1 users nomi"
+" }}}
 
 " }}}
 
@@ -606,7 +613,7 @@ augroup END " }}}
 
 augroup javascript "{{{
   au!
-  autocmd FileType javascript let &errorformat = 
+  autocmd FileType javascript let &errorformat =
         \ '%E%.%#%n) %s:,' .
         \ '%C%.%#Error: %m,' .
         \ '%C%.%#at %s (%f:%l:%c),' .
@@ -614,6 +621,11 @@ augroup javascript "{{{
         \ '%-G%.%#,'
 augroup END " }}}
   
+augroup git " {{{
+  autocmd!
+  autocmd FileType gitcommit set textwidth=72
+augroup END
+" }}}
 " }}}
 
 " Leader commands {{{
@@ -628,14 +640,10 @@ nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 nnoremap <silent> <leader>sb :so ~/.vim_bundles<CR>
 nnoremap <silent> <leader>sa :so ~/.vim/after/plugin/abolish.vim<CR>
 
-nnoremap <Leader>et :Simplenote -o todo<CR>
-nnoremap <Leader>en :Simplenote -o notes<CR>
-
 nnoremap <Leader>el :EditSqlTempFile<CR>
 " }}}
 
 " Toggle navigation panels {{{
-nnoremap <leader>f :NERDTreeToggle<CR>
 nnoremap <Leader>l :TagbarToggle<CR>
 nnoremap <Leader>mb :MBEToggle<CR>
 nnoremap <Leader>u :GundoToggle<CR>
@@ -645,12 +653,6 @@ nnoremap <Leader>z :FZF<CR>
 nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>a :CtrlPTag<CR>
 nnoremap <Leader>r :CtrlPGitBranch<CR>
-" }}}
-
-" Leader commands to cd {{{
-nnoremap <Leader>.. :cd ..
-nnoremap <leader>fcr :cd ~/code/fredchat/src<CR>
-nnoremap <leader>fcc :cd ~/code/fredchat/src/client<CR>
 " }}}
 
 " Git leader commands {{{
@@ -676,11 +678,6 @@ nnoremap <Leader>yt :SignifyToggle<CR>
 " Breakpoint Leader Commands {{{
 nnoremap <Leader>x :Breakpoint<CR>
 nnoremap <Leader>dx :BreakpointRemove *<CR>
-" }}}
-
-" Toggle options {{{
-map <Leader><TAB> :set expandtab!<CR>:set expandtab?<CR>
-map <Leader>n :set relativenumber!<CR>:set relativenumber?<CR>
 " }}}
 
 " Tabularize {{{
@@ -745,9 +742,24 @@ map <Leader>n :set relativenumber!<CR>:set relativenumber?<CR>
 " 'delete current'
 nnoremap dc 0d$
 nnoremap com :silent !tmux set status<CR>
-nnoremap <F9> :Dispatch<CR>
-nnoremap g<CR> :Make<CR>
+nnoremap <F9> :Make<CR>
+nnoremap g<CR> :Dispatch<CR>
 inoremap <F9> <ESC>:Dispatch<CR>i
+
+" Navigate buffers {{{
+nnoremap gb :bn<CR>
+nnoremap gB :bp<CR>
+" }}}
+
+" Window Navigation {{{
+nnoremap <space>w <C-w>
+nnoremap <space>h <C-w>h
+nnoremap <space>j <C-w>j
+nnoremap <space>k <C-w>k
+nnoremap <space>l <C-w>l
+nnoremap <space>z <C-w>z
+" }}}
+
 
 " Sort with motion {{{
 if !exists("g:sort_motion_flags")
