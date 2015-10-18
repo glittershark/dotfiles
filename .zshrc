@@ -214,7 +214,7 @@ function md() {
 function mp() {
 # Test if drive is already mounted
 if ! lsblk | grep /media/external >/dev/null; then
-  if ! sudo mount -t exfat /dev/sdb1 /media/external; then
+  if ! sudo mount /media/external; then
     echo "External drive not plugged in, or could not mount"
     return 1
   fi
@@ -315,16 +315,6 @@ echo "Opening $n $([[ "$@" ]] || echo "modified ")file$([[ $n != 1 ]] && \
 q "${files[@]}"
 }
 
-# add a github remote by github username
-function gra() {
-if (( "${#@}" != 1 )); then
-  echo "Usage: gra githubuser"
-  return 1;
-fi
-local repo=$(gr show -n origin | perl -ne '/Fetch URL: .*github\.com[:\/].*\/(.*)/ && print $1')
-gr add "$1" "git://github.com/$1/$repo"
-}
-
 # git find-replace
 function gfr() {
 if [[ "$#" == "0" ]]; then
@@ -358,6 +348,13 @@ fi
 function vconflicts() {
 $EDITOR $(git status --porcelain | awk '/^UU/ { print $2 }')
 }
+
+function fetchall() {
+for repo in ~/code/nomi/gems/* ~/code/nomi/services/svc-users ~/code/nomi/services/svc-entities ~/code/go/src/github.com/getnomi/svc-gateway; do
+  echo -e "\x1b[34;1m=======> \x1b[37;1m$repo\x1b[0m"
+  git -C $repo fetch
+done
+}
 # }}}
 
 # adb {{{
@@ -384,6 +381,12 @@ alias rtb='cd ~/code/reactable'
 alias tan='cd ~/code/tangent'
 alias dtf='cd ~/.dotfiles'
 alias clt='cd ~/code/clojure/tangent/tangent'
+alias svc='cd ~/code/nomi/services'
+alias sve='cd ~/code/nomi/services/svc-entities'
+alias svu='cd ~/code/nomi/services/svc-users'
+alias gms='cd ~/code/nomi/gems'
+alias gwy='cd ~/code/go/src/github.com/getnomi/svc-gateway'
+alias plt='cd ~/code/nomi/web-platform'
 
 export NODE_ENV='development'
 # }}}
@@ -442,6 +445,11 @@ kill_detached() {
 alias dockercleancontainers="docker ps -a --no-trunc| grep 'Exit' | awk '{print \$1}' | xargs -L 1 -r docker rm"
 alias dockercleanimages="docker images -a --no-trunc | grep none | awk '{print \$3}' | xargs -L 1 -r docker rmi"
 alias dockerclean="dockercleancontainers && dockercleanimages"
+
+alias dck='docker'
+alias dc='docker-compose'
+alias dcu='docker-compose up'
+alias dup=dcu
 # }}}
 
 # Vagrant {{{
@@ -458,7 +466,10 @@ alias vrw='vdf web && vup web --provider docker'
 # }}}
 
 # Twitter! {{{
+export TWITTER_WHOAMI='glittershark1'
 alias first="awk '{print \$1}'"
+
+alias mytl="t tl $TWITTER_WHOAMI"
 
 # favelast <username>
 function favelast() {
@@ -467,6 +478,10 @@ function favelast() {
 
 function rtlast() {
   t rt $(t tl -l $1 | head -n1 | first)
+}
+
+function tthread() {
+  t reply $(t tl -l $TWITTER_WHOAMI | head -n1 | first) $@
 }
 # }}}
 
@@ -503,6 +518,29 @@ unset GREP_OPTIONS
 export GREP_OPTIONS=
 # }}}
 
+# Keyboard backlight {{{
+
+KEYBOARD_BRIGHTNESS_FILE='/sys/devices/platform/applesmc.768/leds/smc::kbd_backlight/brightness'
+
+setkbd() {
+  echo $1 | sudo tee $KEYBOARD_BRIGHTNESS_FILE
+}
+
+kbdup() {
+  curr=$(< $KEYBOARD_BRIGHTNESS_FILE)
+  echo $(( $curr + 15 )) | sudo tee $KEYBOARD_BRIGHTNESS_FILE
+}
+
+kbdup() {
+  curr=$(< $KEYBOARD_BRIGHTNESS_FILE)
+  echo $(( $curr - 15 )) | sudo tee $KEYBOARD_BRIGHTNESS_FILE
+}
+
+# }}}
+
 [ -f ./.localrc ] && source ./.localrc
 
 source ~/.fzf.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
