@@ -30,8 +30,8 @@ set undofile
 set undodir=~/.vim/undo
 set wildignore=*.pyc,*.o,.git
 set clipboard=unnamedplus
-"set backupdir=./.backup,.,/tmp
-" set directory=./.backup,.,/tmp
+set backupdir=$HOME/.vim/backup   
+set directory=$HOME/.vim/tmp     
 set foldmarker={{{,}}}
 set colorcolumn=+1
 set concealcursor=
