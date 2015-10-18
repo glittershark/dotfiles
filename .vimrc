@@ -307,8 +307,33 @@ call extend(g:rails_gem_projections, {
       \ }, 'keep')
 " }}}
 
-" Mustache/Handlebars {{{
-let g:mustache_abbreviations = 1
+" Other projections {{{
+let g:projectionist_heuristics = {
+      \ "config.ru&docker-compose.yml&app/&config/&OWNERS": {
+      \   "app/jobs/*.rb": {
+      \     "type": "job",
+      \     "alternate": "spec/jobs/{}_spec.rb"
+      \   },
+      \   "app/models/*.rb": {
+      \     "type": "model",
+      \     "alternate": "spec/models/{}_spec.rb"
+      \   },
+      \   "app/representations/*.rb": {
+      \     "type": "representation",
+      \     "alternate": "spec/representations/{}_spec.rb"
+      \   },
+      \   "app/resources/*.rb": {
+      \     "type": "resource",
+      \     "alternate": "spec/resources/{}_spec.rb"
+      \   },
+      \   "config/*.yml": {
+      \     "type": "config"
+      \   },
+      \   "spec/*_spec.rb": {
+      \     "type": "spec",
+      \     "alternate": "app/{}.rb"
+      \   }
+      \ }}
 " }}}
 
 " AutoPairs {{{
@@ -352,12 +377,33 @@ let g:haskell_conceal_wide = 1
 " }}}
 
 " Ruby {{{
+
+function! s:RSpecSyntax()
+  syn keyword rspecMethod describe context it its specify shared_context 
+        \ shared_examples shared_examples_for shared_context include_examples 
+        \ include_context it_should_behave_like it_behaves_like before after 
+        \ around subject fixtures controller_name helper_name scenario feature 
+        \ background given described_class
+  syn match rspecMethod '\<let\>!\='
+  syn keyword rspecMethod violated pending expect expect_any_instance_of allow 
+        \ allow_any_instance_of double instance_double mock mock_model 
+        \ stub_model xit
+  syn match rspecMethod '\.\@<!\<stub\>!\@!'
+
+  call s:RSpecHiDefaults()
+endfunction
+
+function! s:RSpecHiDefaults()
+  hi def link rspecMethod rubyFunction
+endfunction
+
 augroup Ruby 
   au!
   " au FileType ruby let b:surround_114 = "\\(module|class,def,if,unless,case,while,until,begin,do) \r end"
   " au FileType ruby set fdm=syntax
-  au FileType ruby set tw=80
-  au FileType haml set tw=80
+  au FileType ruby set tw=110
+  au FileType ruby nnoremap <buffer> gy orequire 'pry'; binding.pry<ESC>^
+  au BufNewFile,BufRead *_spec.rb call <SID>RSpecSyntax()
 augroup END
 
 let ruby_operators = 1
