@@ -36,6 +36,8 @@ set foldmarker={{{,}}}
 set colorcolumn=+1
 set concealcursor=
 set formatoptions+=j
+set wildmenu
+set wildmode=longest,list:full
 " }}}
 
 " GUI options {{{
