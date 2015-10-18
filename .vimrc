@@ -113,13 +113,6 @@ let g:UltiSnipsExpandTrigger = '<c-j>'
 let g:vdebug_options = {'server': '192.168.56.1'}
 " }}}
 
-" VimPipe Commands {{{
-" let g:sql_type_default = 'pgsql'
-command! SqlLive let b:vimpipe_command="vagrant ssh -c '~/mysql'"
-command! SqlRails let b:vimpipe_command="bin/rails dbconsole"
-command! SqlHeroku let b:vimpipe_command="heroku pg:psql"
-" }}}
-
 " Statusline {{{
 let g:airline_powerline_fonts=1
 
@@ -208,7 +201,7 @@ let g:signify_sign_delete       = '-'
 " }}}
 
 " Simplenote {{{
-source ~/.simplenoterc
+" source ~/.simplenoterc
 let g:SimplenoteFiletype = 'markdown'
 let g:SimplenoteSortOrder = 'pinned,modifydate,tagged,createdate'
 let g:SimplenoteVertical = 1
@@ -220,7 +213,7 @@ nnoremap <Leader>nt :Simplenote -t<CR>
 " }}}
 
 " Evernote {{{
-source ~/.evernoterc
+" source ~/.evernoterc
 " }}}
 
 " Emmet {{{
