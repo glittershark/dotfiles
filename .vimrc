@@ -29,7 +29,7 @@ let maplocalleader = '\'
 set undofile
 set undodir=~/.vim/undo
 set wildignore=*.pyc,*.o,.git
-set clipboard=unnamedplus
+set clipboard=unnamed
 set backupdir=$HOME/.vim/backup   
 set directory=$HOME/.vim/tmp     
 set foldmarker={{{,}}}
@@ -62,13 +62,7 @@ endf
 com! BgToggle call ReverseBackground()
 nm <F12> :BgToggle<CR>
 
-
-let g:solarized_termcolors=16
-if has("gui_running")
-  set bg=light
-else
-  set bg=dark
-endif
+set background=light
 colorscheme solarized
 " }}}
 
@@ -84,81 +78,129 @@ let g:ycm_semantic_triggers =  {
       \   'php' : ['->', '::'],
       \   'cs,java,javascript,d,python,perl6,scala,vb,elixir,go' : ['.'],
       \   'vim' : ['re![_a-zA-Z]+[_\w]*\.'],
-      \   'ruby' : ['.', '::'],
       \   'lua' : ['.', ':'],
       \   'erlang' : [':'],
       \   'clojure' : [],
       \   'haskell' : ['re!.*', '.', ' ', '(']
       \ }
       " \   'haskell' : ['.', '(', ' ']
+      " \   'ruby' : ['.', '::'],
       " \   'clojure' : ['(', '.', '/', '[']
 " }}}
 
 " Neocomplete {{{
+if !has('nvim')
+  " Use neocomplete.
+  let g:neocomplete#enable_at_startup = 1
+  " Use smartcase.
+  let g:neocomplete#enable_smart_case = 1
+  " Set minimum syntax keyword length.
+  let g:neocomplete#sources#syntax#min_keyword_length = 3
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-" let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  " Define dictionary.
+  " let g:neocomplete#sources#dictionary#dictionaries = {
+  "     \ 'default' : '',
+  "     \ 'vimshell' : $HOME.'/.vimshell_hist',
+  "     \ 'scheme' : $HOME.'/.gosh_completions'
+  "     \ }
 
-" Define dictionary.
-" let g:neocomplete#sources#dictionary#dictionaries = {
-"     \ 'default' : '',
-"     \ 'vimshell' : $HOME.'/.vimshell_hist',
-"     \ 'scheme' : $HOME.'/.gosh_completions'
-"     \ }
+  " Define keyword.
+  if !exists('g:neocomplete#keyword_patterns')
+      let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
+  " Plugin key-mappings.
+  inoremap <expr><C-g>     neocomplete#undo_completion()
+  inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+  " Recommended key-mappings.
+  " <CR>: close popup and save indent.
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  function! s:my_cr_function()
+    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+    " For no inserting <CR> key.
+    "return pumvisible() ? "\<C-y>" : "\<CR>"
+  endfunction
+  " <TAB>: completion.
+  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  " <C-h>, <BS>: close popup and delete backword char.
+  inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+  inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+  " Close popup by <Space>.
+  "inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+  " AutoComplPop like behavior.
+  "let g:neocomplete#enable_auto_select = 1
+
+  " Shell like behavior(not recommended).
+  "set completeopt+=longest
+  "let g:neocomplete#enable_auto_select = 1
+  "let g:neocomplete#disable_auto_complete = 1
+  "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+  " Enable omni completion.
+  " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+  " Enable heavy omni completion.
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+  endif
 endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+" }}}
 
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
+" Deoplete {{{
+if has('nvim')
+  let g:deoplete#enable_at_startup = 1
 
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  function! s:my_cr_function()
+    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+    " For no inserting <CR> key.
+    "return pumvisible() ? "\<C-y>" : "\<CR>"
+  endfunction
+  " <TAB>: completion.
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+endif
+" }}}
 
-" AutoComplPop like behavior.
-"let g:neocomplete#enable_auto_select = 1
+" Neovim Terminal mode {{{
+if has('nvim')
+  tnoremap <Esc> <C-\><C-n>
+  nnoremap \\ :tabedit term://zsh<CR>
+  nnoremap q\ :call <SID>OpenRepl()<CR>
 
-" Shell like behavior(not recommended).
-"set completeopt+=longest
-"let g:neocomplete#enable_auto_select = 1
-"let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+  if !exists('g:repl_size')
+    let g:repl_size=9
+  endif
 
-" Enable omni completion.
-" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  function! s:OpenRepl() " {{{
+    " Check if buffer exists and is open
+    if exists('s:repl_bufname') && bufexists(s:repl_bufname) && bufwinnr(s:repl_bufname) >=? 0
+      " If so, just switch to it
+      execute bufwinnr(s:repl_bufname) . 'wincmd' 'w'
+      norm i
+      return
+    endif
 
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
+    if !exists('b:console')
+      let b:console=$SHELL
+    endif
+
+    let l:console_cmd = b:console
+
+    execute 'bot' g:repl_size . 'new'
+    set winfixheight nobuflisted
+    call termopen(l:console_cmd)
+    let s:repl_bufname = bufname('%')
+    norm i
+  endfunction " }}}
 endif
 " }}}
 
@@ -166,7 +208,7 @@ endif
 let g:tagbar_autoclose = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_compact = 1
-let g:tagbar_ctags_bin = '/usr/bin/ctags'
+let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 " }}}
 
 " delimitMate options {{{
@@ -254,6 +296,10 @@ let g:syntastic_scss_checkers = ['scss_lint']
 " Haskell {{{
 " let g:syntastic_haskell_checkers = ['ghc-mod']
 " }}}
+" Elixir {{{
+let g:syntastic_elixir_checkers = ['elixir']
+let g:syntastic_enable_elixir_checker = 1
+" }}}
 " }}}
 
 " Bufferline {{{
@@ -274,7 +320,6 @@ let g:signify_sign_delete       = '-'
 " }}}
 
 " Simplenote {{{
-" source ~/.simplenoterc
 let g:SimplenoteFiletype = 'markdown'
 let g:SimplenoteSortOrder = 'pinned,modifydate,tagged,createdate'
 let g:SimplenoteVertical = 1
@@ -285,20 +330,9 @@ nnoremap <Leader>nw :Simplenote -l work<CR>
 nnoremap <Leader>nt :Simplenote -t<CR>
 " }}}
 
-" Evernote {{{
-" source ~/.evernoterc
-" }}}
-
 " Emmet {{{
 " Expand abbreviation
 let g:user_emmet_leader_key = '<C-y>'
-" }}}
-
-" Vimshell {{{
-nnoremap <leader>h :VimShell<CR>
-let g:vimshell_prompt_expr =
-    \ 'escape(fnamemodify(getcwd(), ":~")."%", "\\[]()?! ")." "'
-let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+% '
 " }}}
 
 " Startify {{{
@@ -477,11 +511,20 @@ let g:necoghc_enable_detailed_browse = 1
 augroup Haskell
   autocmd!
   autocmd FileType haskell compiler cabal
-  autocmd FileType haskell let b:dispatch='cabal test'
-  autocmd FileType haskell let b:start='cabal run'
   autocmd FileType haskell setlocal textwidth=110 shiftwidth=2
   autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+  autocmd FileType haskell call <SID>HaskellSetup()
 augroup END
+
+function! s:HaskellSetup()
+  set sw=4
+  compiler cabal
+  let b:start='cabal run'
+  let b:console='cabal repl'
+  let b:dispatch='cabal test'
+  nnoremap <buffer> gy :HdevtoolsType<CR>
+  nnoremap <buffer> yu :HdevtoolsClear<CR>
+endfunction
 " }}}
 
 " Ruby {{{
@@ -511,6 +554,7 @@ augroup Ruby
   " au FileType ruby let b:surround_114 = "\\(module|class,def,if,unless,case,while,until,begin,do) \r end"
   " au FileType ruby set fdm=syntax
   au FileType ruby set tw=110
+  au FileType ruby set omnifunc=
   au FileType ruby nnoremap <buffer> gy orequire 'pry'; binding.pry<ESC>^
   au FileType ruby nnoremap <buffer> gY Orequire 'pry'; binding.pry<ESC>^
   au BufNewFile,BufRead *_spec.rb call <SID>RSpecSyntax()
@@ -609,7 +653,7 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 augroup striptrailingwhitespaces " {{{
-autocmd FileType c,cpp,java,php,ruby,python,sql,javascript,sh,jst,less,haskell,haml,coffee,scss,clojure
+autocmd FileType c,cpp,java,php,ruby,python,sql,javascript,sh,jst,less,haskell,haml,coffee,scss,clojure,objc,elixir,yaml
   \ autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 augroup END " }}}
 
@@ -857,9 +901,10 @@ nnoremap <Leader>dx :BreakpointRemove *<CR>
 " 'delete current'
 nnoremap dc 0d$
 nnoremap com :silent !tmux set status<CR>
-nnoremap <F9> :Make<CR>
+nnoremap <F9>  :Make<CR>
 nnoremap g<CR> :Dispatch<CR>
-inoremap <F9> <ESC>:Dispatch<CR>i
+nnoremap g\ :Start<CR>
+inoremap <F9> <ESC>:Make<CR>i
 
 " Navigate buffers {{{
 nnoremap gb :bn<CR>
