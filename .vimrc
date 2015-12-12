@@ -87,9 +87,79 @@ let g:ycm_semantic_triggers =  {
       \   'ruby' : ['.', '::'],
       \   'lua' : ['.', ':'],
       \   'erlang' : [':'],
-      \   'clojure' : []
+      \   'clojure' : [],
+      \   'haskell' : ['re!.*', '.', ' ', '(']
       \ }
+      " \   'haskell' : ['.', '(', ' ']
       " \   'clojure' : ['(', '.', '/', '[']
+" }}}
+
+" Neocomplete {{{
+
+"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+" Disable AutoComplPop.
+" let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+" let g:neocomplete#sources#dictionary#dictionaries = {
+"     \ 'default' : '',
+"     \ 'vimshell' : $HOME.'/.vimshell_hist',
+"     \ 'scheme' : $HOME.'/.gosh_completions'
+"     \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" AutoComplPop like behavior.
+"let g:neocomplete#enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplete#enable_auto_select = 1
+"let g:neocomplete#disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+" Enable omni completion.
+" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
 " }}}
 
 " Tagbar options {{{
@@ -158,13 +228,13 @@ let g:syntastic_python_flake8_post_args = "--ignore=E101,E223,E224,E301,E302,E30
 
 " }}} 
 " Javascript {{{
-augroup syntastic_javascript_jsx
-  autocmd!
-  autocmd BufReadPre,BufNewFile *.js 
-        \ let g:syntastic_javascript_checkers = ['jshint']
-  autocmd BufReadPre,BufNewFile *.jsx
-        \ let g:syntastic_javascript_checkers = ['jsxhint']
-augroup END
+let g:syntastic_javascript_checkers = ['eslint']
+" augroup syntastic_javascript_jsx
+"   autocmd!
+"   autocmd BufReadPre,BufNewFile *.js 
+"   autocmd BufReadPre,BufNewFile *.jsx
+"         \ let g:syntastic_javascript_checkers = ['jsxhint']
+" augroup END
 
 " }}}
 " Haml {{{
@@ -180,6 +250,9 @@ let g:syntastic_ruby_checkers = ['rubocop']
 " }}}
 " SASS/SCSS {{{
 let g:syntastic_scss_checkers = ['scss_lint']
+" }}}
+" Haskell {{{
+" let g:syntastic_haskell_checkers = ['ghc-mod']
 " }}}
 " }}}
 
@@ -333,6 +406,35 @@ let g:projectionist_heuristics = {
       \     "type": "spec",
       \     "alternate": "app/{}.rb"
       \   }
+      \ },
+      \ "svc-gateway.cabal": {
+      \   "src/*.hs": {
+      \     "type": "src",
+      \     "alternate": "test/{}Spec.hs"
+      \  },
+      \   "test/*Spec.hs": {
+      \     "type": "spec",
+      \     "alternate": "src/{}.hs",
+      \     "template": [
+      \       "module Gateway.Resource.HierarchySpec (main, spec) where",
+      \       "",
+      \       "import Prelude",
+      \       "import Test.Hspec",
+      \       "import Data.Aeson",
+      \       "",
+      \       "import Gateway.Resource.Hierarchy",
+      \       "",
+      \       "main :: IO ()",
+      \       "main = hspec spec",
+      \       "",
+      \       "spec :: Spec",
+      \       "spec = do",
+      \       "    describe \"something\" $ undefined"
+      \    ]
+      \  },
+      \  "svc-gateway.cabal": {
+      \    "type": "cabal"
+      \  }
       \ }}
 " }}}
 
@@ -369,6 +471,17 @@ aug END " }}}
 
 " Haskell {{{
 let g:haskell_conceal_wide = 1
+let g:haskellmode_completion_ghc = 0
+let g:necoghc_enable_detailed_browse = 1
+
+augroup Haskell
+  autocmd!
+  autocmd FileType haskell compiler cabal
+  autocmd FileType haskell let b:dispatch='cabal test'
+  autocmd FileType haskell let b:start='cabal run'
+  autocmd FileType haskell setlocal textwidth=110 shiftwidth=2
+  autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+augroup END
 " }}}
 
 " Ruby {{{
@@ -377,9 +490,10 @@ function! s:RSpecSyntax()
   syn keyword rspecMethod describe context it its specify shared_context 
         \ shared_examples shared_examples_for shared_context include_examples 
         \ include_context it_should_behave_like it_behaves_like before after 
-        \ around subject fixtures controller_name helper_name scenario feature 
+        \ around fixtures controller_name helper_name scenario feature 
         \ background given described_class
   syn match rspecMethod '\<let\>!\='
+  syn match rspecMethod '\<subject\>!\='
   syn keyword rspecMethod violated pending expect expect_any_instance_of allow 
         \ allow_any_instance_of double instance_double mock mock_model 
         \ stub_model xit
@@ -398,6 +512,7 @@ augroup Ruby
   " au FileType ruby set fdm=syntax
   au FileType ruby set tw=110
   au FileType ruby nnoremap <buffer> gy orequire 'pry'; binding.pry<ESC>^
+  au FileType ruby nnoremap <buffer> gY Orequire 'pry'; binding.pry<ESC>^
   au BufNewFile,BufRead *_spec.rb call <SID>RSpecSyntax()
 augroup END
 
