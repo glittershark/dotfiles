@@ -308,7 +308,20 @@ let g:bufferline_echo=0
 
 " Eclim {{{
 let g:EclimCompletionMethod = 'omnifunc'
-au FileType java noremap <C-I> :JavaImportOrganize<CR>
+augroup eclim
+  au!
+  au FileType java call <SID>JavaSetup()
+  au FileType java set textwidth=120
+augroup END
+
+function! s:JavaSetup() abort
+  noremap <C-I> :JavaImport<CR>
+  nnoremap K :JavaDocPreview<CR>
+  nnoremap ]d :JavaSearchContext<CR>
+  nnoremap [d :JavaSearchContext<CR>
+  nnoremap g<CR> :JUnit<CR>
+  nnoremap g\ :Mvn test<CR>
+endfunction
 " }}}
 
 " Signify options {{{
@@ -490,12 +503,6 @@ let g:python_highlight_all=1
 aug PHP
   au!
   "au FileType php setlocal fdm=marker fmr={{{,}}}
-aug END " }}}
-
-" Java {{{
-aug Java 
-  au!
-  au FileType java setlocal fdm=marker fmr={,}
 aug END " }}}
 
 " Mail {{{
