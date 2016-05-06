@@ -1,3 +1,5 @@
-# vim: ft=desktop:
 [Default Applications]
 text/html=firefox.desktop;
+
+[Added Associations]
+binary/octet-stream=feh.desktop;

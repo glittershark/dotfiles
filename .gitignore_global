@@ -1,2 +1,5 @@
 *.sw*
+.classpath
+.project
+.settings/
 

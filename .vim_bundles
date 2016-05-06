@@ -28,9 +28,9 @@ else
   Plugin 'Shougo/neocomplete'
 endif
 Plugin 'SirVer/ultisnips'
-" Plugin 'Valloric/YouCompleteMe'
-Plugin 'aftersyntaxc.vim'
-Plugin 'bling/vim-airline'
+" Plugin 'aftersyntaxc.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'bling/vim-bufferline'
 Plugin 'briancollins/vim-jst'
 Plugin 'cespare/vim-toml'
@@ -94,7 +94,7 @@ Plugin 'rodjek/vim-puppet'
 Plugin 'scrooloose/syntastic'
 Plugin 'sjl/gundo.vim'
 Plugin 'tomtom/tcomment_vim'
-Plugin 'tpope/timl'
+" Plugin 'tpope/timl'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-bundler'
 Plugin 'tpope/vim-classpath'
@@ -124,6 +124,12 @@ Plugin 'vim-php/tagbar-phpctags.vim'
 Plugin 'vim-scripts/haskell.vim'
 Plugin 'wting/rust.vim'
 Plugin 'pbrisbin/vim-syntax-shakespeare'
+Plugin 'glittershark/vim-hare'
+Plugin 'flowtype/vim-flow'
+Plugin 'bitc/vim-hdevtools'
+
+
+Plugin 'haproxy'
 " }}}
 
 call vundle#end()

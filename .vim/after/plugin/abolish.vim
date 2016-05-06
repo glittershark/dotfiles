@@ -35,3 +35,7 @@ Abolish ciontext context
 Abolish seciton section
 Abolish icnlude include
 Abolish tyep type
+Abolish singluar singular
+Abolish site_gropus site_groups
+Abolish funciton function
+Abolish funciton function

@@ -33,7 +33,7 @@ bindkey -v
 set -o vi
 umask 022
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-export PATH=~/.cabal/bin:$PATH:/usr/bin/vendor_perl:/usr/bin/core_perl:~/code/go/bin:~/bin:~/npm/bin:~/.gem/ruby/2.1.0/bin:~/.gem/ruby/2.0.0/bin:/home/smith/bin
+export PATH=~/.local/bin:~/.cabal/bin:$PATH:~/code/go/bin:~/bin:~/npm/bin:~/.gem/ruby/2.1.0/bin:~/.gem/ruby/2.0.0/bin:/home/smith/bin
 # }}}
 
 # Oh-My-Zsh {{{
@@ -357,6 +357,11 @@ done
 }
 # }}}
 
+# Wifi {{{
+alias nsw='sudo netctl switch-to'
+alias office-wifi='nsw "wlp3s0-Nomi Office Wifi.wifi-menu"'
+# }}}
+
 # adb {{{
 export GNEX_IP='192.168.3.30'
 alias adbcon='adb connect $GNEX_IP'
@@ -374,24 +379,26 @@ export GOPATH="/home/griffin/code/go"
 # }}}
 
 # Directories {{{
-alias lll='cd ~/code/landlordsny'
-alias liv='cd ~/code/live'
-alias sym='cd ~/code/symposium'
 alias rtb='cd ~/code/reactable'
 alias tan='cd ~/code/tangent'
 alias dtf='cd ~/.dotfiles'
-alias clt='cd ~/code/clojure/tangent/tangent'
+
 alias svc='cd ~/code/nomi/services'
 alias sve='cd ~/code/nomi/services/svc-entities'
 alias svu='cd ~/code/nomi/services/svc-users'
 alias gms='cd ~/code/nomi/gems'
-alias gwy='cd ~/code/go/src/github.com/getnomi/svc-gateway'
+alias jcl='cd ~/code/nomi/gems/json_client'
+alias gwy='cd ~/code/nomi/services/svc-gateway'
 alias plt='cd ~/code/nomi/web-platform'
+alias ops='cd ~/code/nomi/web-operations'
+alias pup='cd ~/code/nomi/puppet'
+alias hra='cd ~/code/nomi/hiera'
 
 export NODE_ENV='development'
 # }}}
 
 # SSH shortcuts {{{
+alias awa='ssh aw2-admin.nomi.host'
 # }}}
 
 # Editing config files {{{
@@ -408,7 +415,7 @@ alias workmon='xrandr --output DP-2 --pos 1440x900 --primary'
 # fzf {{{
 v() {
   local file
-  file=$(fzf --query="$1" --select-1 --exit-0)
+  file=$(fzf-tmux --query="$1" --select-1 --exit-0)
   [ -n "$file" ] && ${EDITOR:-vim} "$file"
 }
 
@@ -422,6 +429,10 @@ co() {
   branch=$(git branch -a | sed -s "s/\s*\**//g" | fzf --query="$1" --select-1 --exit-0) && git checkout "$branch"
 }
 
+alias cmt="git log --oneline | fzf-tmux | awk '{print \$1}'"
+alias fxu='git commit --fixup "$(cmt)"'
+alias shw='git show "$(cmt)"'
+
 # fh - repeat history
 # h() {
 #   eval $(([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s | sed 's/ *[0-9]* *//')
@@ -429,7 +440,7 @@ co() {
 
 # fkill - kill process
 fkill() {
-  ps -ef | sed 1d | fzf -m | awk '{print $2}' | xargs kill -${1:-9}
+  ps -ef | sed 1d | fzf-tmux -m | awk '{print $2}' | xargs kill -${1:-9}
 }
 # }}}
 
@@ -510,6 +521,12 @@ alias asdf='asdfghjkl'
 alias asdflkj='asdf'
 alias xmm='xmodmap ~/.Xmodmap'
 alias bak='~/bin/backup.sh'
+
+function fw() { # fix white
+  local substitution
+  local substitution='s/\x1b\[90m/\x1b[92m/g'
+  $@ > >(perl -pe "$substitution") 2> >(perl -pe "$substitution" 1>&2)
+}
 # }}}
 
 # Grep options {{{
@@ -544,3 +561,18 @@ source ~/.fzf.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+eval "$(thefuck --alias)"
+
+export PGHOST=localhost PGUSER=nomi # KAFKA_ENABLED=false
+
+# ssh-agent {{{
+eval $(ssh-agent)
+ssh-add
+ssh-add ~/.ssh/id_rsa.big
+# }}}
+
+alias http='http --style solarized'
+
+alsi -n -u
+

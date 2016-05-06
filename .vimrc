@@ -38,6 +38,7 @@ set concealcursor=
 set formatoptions+=j
 set wildmenu
 set wildmode=longest,list:full
+set noincsearch
 " }}}
 
 " GUI options {{{
@@ -67,6 +68,10 @@ colorscheme solarized
 " }}}
 
 " ---------------------------------------------------------------------------
+
+let g:ctrlp_custom_ignore = {
+      \ 'dir': 'node_modules'
+      \ }
 
 " YouCompleteMe {{{
 let g:ycm_semantic_triggers =  {
@@ -208,7 +213,6 @@ endif
 let g:tagbar_autoclose = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_compact = 1
-let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
 " }}}
 
 " delimitMate options {{{
@@ -234,8 +238,10 @@ endif
 let g:airline_symbols.space = "\ua0"
 
 let g:airline#extensions#tagbar#flags = 'f'
-let g:ariline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_min_count = 2
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#tab_min_count = 2
 let g:airline#extensions#tmuxline#enabled = 0
 
 let g:tmuxline_theme = 'airline'
@@ -271,6 +277,9 @@ let g:syntastic_python_flake8_post_args = "--ignore=E101,E223,E224,E301,E302,E30
 " }}} 
 " Javascript {{{
 let g:syntastic_javascript_checkers = ['eslint']
+let g:flow#autoclose = 1
+let g:flow#enable = 1
+
 " augroup syntastic_javascript_jsx
 "   autocmd!
 "   autocmd BufReadPre,BufNewFile *.js 
@@ -381,7 +390,9 @@ call extend(g:rails_gem_projections, {
       \   "app/assets/javascripts/components/*.jsx": {
       \     "command": "component",
       \     "template": "var %S = window.%S = React.createClass({\n  render: function() {\n  }\n});",
-      \     "alternate": "spec/javascripts/components/%s_spec.jsx" }},
+      \     "alternate": "spec/javascripts/components/%s_spec.jsx" },
+      \   "spec/javascripts/components/*_spec.jsx": {
+      \     "alternate": "app/assets/javascripts/components/{}.jsx" }},
       \ "rspec": {
       \    "spec/**/support/*.rb": {
       \      "command": "support"}},
@@ -403,7 +414,7 @@ call extend(g:rails_gem_projections, {
       \   "app/decorators/*_decorator.rb": {
       \     "command": "decorator",
       \     "affinity": "model",
-      \     "template": "class %SDecorator < ApplicationDecorator\nend"}},
+      \     "template": "class %SDecorator < Draper::Decorator\nend"}},
       \ "fabrication": {
       \   "spec/fabricators/*_fabricator.rb": {
       \     "command": ["fabricator", "factory"],
@@ -438,13 +449,9 @@ let g:projectionist_heuristics = {
       \     "type": "model",
       \     "alternate": "spec/models/{}_spec.rb"
       \   },
-      \   "app/representations/*.rb": {
-      \     "type": "representation",
-      \     "alternate": "spec/representations/{}_spec.rb"
-      \   },
-      \   "app/resources/*.rb": {
+      \   "app/resources/*_resource.rb": {
       \     "type": "resource",
-      \     "alternate": "spec/resources/{}_spec.rb"
+      \     "alternate": "spec/resources/{}_resource_spec.rb"
       \   },
       \   "config/*.yml": {
       \     "type": "config"
@@ -452,6 +459,9 @@ let g:projectionist_heuristics = {
       \   "spec/*_spec.rb": {
       \     "type": "spec",
       \     "alternate": "app/{}.rb"
+      \   },
+      \   "spec/factories/*.rb": {
+      \     "type": "factory",
       \   }
       \ },
       \ "svc-gateway.cabal": {
@@ -482,6 +492,12 @@ let g:projectionist_heuristics = {
       \  "svc-gateway.cabal": {
       \    "type": "cabal"
       \  }
+      \ },
+      \ "package.json&.flowconfig": {
+      \   "src/*.*": {
+      \     "type": "src",
+      \     "alternate": "test/{}_spec.js"
+      \   }
       \ }}
 " }}}
 
@@ -517,18 +533,22 @@ let g:necoghc_enable_detailed_browse = 1
 
 augroup Haskell
   autocmd!
-  autocmd FileType haskell compiler cabal
   autocmd FileType haskell setlocal textwidth=110 shiftwidth=2
   autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
   autocmd FileType haskell call <SID>HaskellSetup()
+  autocmd FileType haskell setlocal keywordprg=hoogle\ -cie
 augroup END
 
 function! s:HaskellSetup()
   set sw=4
-  compiler cabal
-  let b:start='cabal run'
-  let b:console='cabal repl'
-  let b:dispatch='cabal test'
+  " compiler cabal
+  " let b:start='cabal run'
+  " let b:console='cabal repl'
+  " let b:dispatch='cabal test'
+  compiler stack
+  let b:start='stack run'
+  let b:console='stack ghci'
+  let b:dispatch='stack test'
   nnoremap <buffer> gy :HdevtoolsType<CR>
   nnoremap <buffer> yu :HdevtoolsClear<CR>
 endfunction
@@ -564,6 +584,7 @@ augroup Ruby
   au FileType ruby set omnifunc=
   au FileType ruby nnoremap <buffer> gy orequire 'pry'; binding.pry<ESC>^
   au FileType ruby nnoremap <buffer> gY Orequire 'pry'; binding.pry<ESC>^
+  au FileType ruby nnoremap <buffer> yu :g/require 'pry'; binding.pry/d<CR> 
   au BufNewFile,BufRead *_spec.rb call <SID>RSpecSyntax()
 augroup END
 
@@ -660,7 +681,7 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 augroup striptrailingwhitespaces " {{{
-autocmd FileType c,cpp,java,php,ruby,python,sql,javascript,sh,jst,less,haskell,haml,coffee,scss,clojure,objc,elixir,yaml
+autocmd FileType c,cpp,java,php,ruby,python,javascript,sh,jst,less,haskell,haml,coffee,scss,clojure,objc,elixir,yaml
   \ autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 augroup END " }}}
 
@@ -695,6 +716,9 @@ command! SqlEntities let b:vimpipe_command="psql -h 127.1 entities nomi"
 command! SqlUsers let b:vimpipe_command="psql -h 127.1 users nomi"
 " }}}
 
+" Focus dispatch to only the last failures
+command! -nargs=* FocusFailures FocusDispatch rspec --only-failures <args>
+
 " }}}
 
 " Autocommands {{{
@@ -706,7 +730,7 @@ augroup END " }}}
 
 augroup omni " {{{
   au!
-  autocmd FileType javascript setlocal omnifunc=tern#Complete
+  " autocmd FileType javascript setlocal omnifunc=tern#Complete
   "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType php setlocal omnifunc=
 augroup END " }}}
@@ -738,6 +762,7 @@ augroup END " }}}
 augroup jsx " {{{
   au!
   " autocmd FileType jsx set syntax=javascript
+  autocmd FileType javascript set filetype=javascript.jsx
 augroup END " }}}
 
 augroup nicefoldmethod " {{{
@@ -960,3 +985,4 @@ map goo <Plug>SortLines
 " }}}
 " }}}
 
+let g:hare_executable = 'cabal exec -- ghc-hare'

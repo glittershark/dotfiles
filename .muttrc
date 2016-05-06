@@ -30,8 +30,8 @@ set thorough_search      # strip headers and eval mimes before searching
 set sidebar_delim        = '│'
 set sidebar_visible      = no
 set sidebar_width        = 36
-set sidebar_folderindent = yes
-set sidebar_shortpath    = yes
+# set sidebar_folderindent = yes
+# set sidebar_shortpath    = yes
 macro index b '<enter-command>toggle sidebar_visible<enter>'
 # }}}
 
@@ -50,27 +50,29 @@ hdr_order from: to: cc: date: subject:  # and in this order
 # Account Settings {{{
 
 # Default inbox.
-set spoolfile = "+personal/INBOX"
+# set spoolfile = "+personal/INBOX"
+set spoolfile = "+nomi/INBOX"
 
 # Alternate email addresses.
-alternates smith@visionlink.org griffin@get-tangent.io
+alternates wildgriffin45@gmail.com
 
 # Mailboxes to show in the sidebar.
-mailboxes +personal/INBOX \
-          +personal/archive \
-          +personal/sent \
-          +personal/drafts \
-          +tangent/INBOX \
-          +landlords/INBOX \
-          +landlords/archive \
-          +landlords/sent \
-          +landlords/drafts \
-          +info/INBOX \ 
+# mailboxes +personal/INBOX \
+#           +personal/archive \
+#           +personal/sent \
+#           +personal/drafts \
+mailboxes +nomi/INBOX \
+          +nomi/archive \
+          +nomi/sent \
+          +nomi/drafts \
+          +nomi/'PagerDuty Alert' \
+          +nomi/'Solano.Failures' \
+          +nomi/'Flowdock' \
 # }}}
 
 # Other special folders. {{{
-set mbox      = "+personal/archive"
-set postponed = "+personal/drafts"
+set mbox      = "+nomi/archive"
+set postponed = "+nomi/drafts"
 # }}}
 
 # Index View Options {{{
@@ -95,7 +97,7 @@ bind index <space>  collapse-thread
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
 
 # Sync email
-macro index <f5> "<shell-escape>tmux splitw -dl 20 \"offlineimap-notify -a personal -a tangent -a landlords && sleep 1\"<enter>" "run offlineimap to sync mail"
+macro index <f5> "<shell-escape>tmux splitw -dl 20 \"offlineimap && sleep 1\"<enter>" "run offlineimap to sync mail"
 
 # Saner copy/move dialogs
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
@@ -152,7 +154,7 @@ set reverse_name                     # reply as whomever it was to
 set include                          # include message in replies
 set forward_quote                    # include message in forwards
 
-set from = "wildgriffin45@gmail.com"
+set from = "griffin.smith@nomi.com"
 set sendmail = "/usr/bin/msmtp"
 set sendmail_wait = 0
 set use_from = yes
@@ -170,7 +172,7 @@ bind editor <Tab> complete-query
 macro index,pager a "<pipe-message>goobook add<return>" "add the sender address to Google contacts"
 
 # archiving
-macro index,pager y "<save-message>=personal/archive<enter>" "Archive"
+macro index,pager y "<save-message>=nomi/archive<enter>" "Archive"
 
 # notmuch
 macro index S "<enter-command>unset wait_key<enter><shell-escape>notmuch-mutt -p search -o ~/.mail/temporary/search<enter><change-folder-readonly>+temporary/search<enter>" "search mail (using notmuch)"
@@ -320,10 +322,10 @@ color body blue default "( *[-+=#*~_]){6,}"
 # }}}
 
 # Jump to folders {{{
-macro index,pager gi '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/INBOX<return>'
-macro index,pager gs '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/sent<return>'
-macro index,pager ga '<enter-command>set from="wildgriffin45@gmail.com"<enter><change-folder>=personal/archive<return>'
-macro index,pager gw '<enter-command>set from="griffin@landlordsny.com"<enter><change-folder>=landlords/INBOX<return>'
+macro index,pager gi '<enter-command>set from="nomi@gmail.com"<enter><change-folder>=nomi/INBOX<return>'
+macro index,pager gs '<enter-command>set from="nomi@gmail.com"<enter><change-folder>=nomi/sent<return>'
+macro index,pager ga '<enter-command>set from="nomi@gmail.com"<enter><change-folder>=nomi/archive<return>'
+# macro index,pager gw '<enter-command>set from="griffin@landlordsny.com"<enter><change-folder>=landlords/INBOX<return>'
 # }}}
 
 # vim: set fdm=marker fmr={{{,}}} nowrap:
