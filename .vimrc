@@ -70,7 +70,7 @@ colorscheme solarized
 " ---------------------------------------------------------------------------
 
 let g:ctrlp_custom_ignore = {
-      \ 'dir': 'node_modules'
+      \ 'dir': '(node_modules|target)'
       \ }
 
 " YouCompleteMe {{{
@@ -611,10 +611,18 @@ aug Clojure
   autocmd BufNewFile,BufReadPost *.cljx setfiletype clojure
   autocmd BufNewFile,BufReadPost *.cljx setlocal omnifunc=
   autocmd BufNewFile,BufReadPost *.cljs setlocal omnifunc=
+  autocmd FileType clojure call <SID>TangentInit()
+
 aug END
 
-command! TangentConnect Connect nrepl://localhost:7888 
-      \ ~/code/clojure/tangent/tangent
+function! s:TangentInit() abort
+  set textwidth=80
+  command! TReset    call fireplace#session_eval('(user/reset)')
+  command! TGo       call fireplace#session_eval('(user/go)')
+  command! TMigrate  call fireplace#session_eval('(user/migrate)')
+  command! TRollback call fireplace#session_eval('(user/rollback)')
+  nnoremap g\ :TReset<CR>
+endfunction
 
 " }}}
 
