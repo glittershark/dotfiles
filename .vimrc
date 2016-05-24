@@ -601,18 +601,46 @@ aug Clojure
   au!
   autocmd FileType clojure nnoremap <C-S> :Slamhound<CR>
   let g:clojure_align_multiline_strings = 1
-  let g:clojure_fuzzy_indent_patterns = 
+  let g:clojure_fuzzy_indent_patterns =
         \ ['^with', '^def', '^let', '^fact']
   let g:clojure_special_indent_words =
         \ 'deftype,defrecord,reify,proxy,extend-type,extend-protocol,letfn,html'
 
+  autocmd FileType clojure setlocal textwidth=80
   autocmd FileType clojure setlocal lispwords+=GET,POST,PATCH,PUT,DELETE |
-        \ setlocal lispwords+=context
+        \ setlocal lispwords+=context,select
   autocmd BufNewFile,BufReadPost *.cljx setfiletype clojure
   autocmd BufNewFile,BufReadPost *.cljx setlocal omnifunc=
   autocmd BufNewFile,BufReadPost *.cljs setlocal omnifunc=
   autocmd FileType clojure call <SID>TangentInit()
 
+  " autocmd BufNewFile,BufReadPost *.cljx setlocal omnifunc=
+  " autocmd BufNewFile,BufReadPost *.cljs setlocal omnifunc=
+
+  autocmd FileType clojure let b:console='lein repl'
+  autocmd FileType clojure call <SID>ClojureMaps()
+
+  function! s:ClojureMaps() abort
+    nnoremap <silent> <buffer> [m :call search('^(def', 'Wzb')<CR>
+    nnoremap <silent> <buffer> ]m :call search('^(def', 'Wz')<CR>
+  endfunction
+
+  command! Scratch call <SID>OpenScratch()
+  autocmd FileType clojure nnoremap <buffer> \s :Scratch<CR>
+
+  let g:scratch_buffer_name = 'SCRATCH'
+
+  function! s:OpenScratch()
+    if bufwinnr(g:scratch_buffer_name) > 0
+      execute bufwinnr(g:scratch_buffer_name) . 'wincmd' 'w'
+      return
+    endif
+
+    vsplit SCRATCH
+    set buftype=nofile
+    set filetype=clojure
+    let b:scratch = 1
+  endfunction
 aug END
 
 function! s:TangentInit() abort
@@ -689,7 +717,7 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 augroup striptrailingwhitespaces " {{{
-autocmd FileType c,cpp,java,php,ruby,python,javascript,sh,jst,less,haskell,haml,coffee,scss,clojure,objc,elixir,yaml
+autocmd FileType c,cpp,java,php,ruby,python,sql,javascript,sh,jst,less,haskell,haml,coffee,scss,clojure,objc,elixir,yaml,json
   \ autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 augroup END " }}}
 
@@ -722,6 +750,12 @@ command! SqlRails let b:vimpipe_command="bin/rails dbconsole"
 command! SqlHeroku let b:vimpipe_command="heroku pg:psql"
 command! SqlEntities let b:vimpipe_command="psql -h 127.1 entities nomi"
 command! SqlUsers let b:vimpipe_command="psql -h 127.1 users nomi"
+command! SqlTangent let b:vimpipe_command="psql -h local.docker tangent super"
+" }}}
+
+" Git commands {{{
+command! -nargs=* Gpf Gpush -f <args>
+command! -nargs=* Gcv Gcommit --verbose <args>
 " }}}
 
 " Focus dispatch to only the last failures
@@ -819,7 +853,7 @@ augroup javascript "{{{
         \ '%Z%.%#at %s (%f:%l:%c),' .
         \ '%-G%.%#,'
 augroup END " }}}
-  
+
 augroup git " {{{
   autocmd!
   autocmd FileType gitcommit set textwidth=72
@@ -852,6 +886,12 @@ nnoremap <Leader>z :FZF<CR>
 nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>a :CtrlPTag<CR>
 nnoremap <Leader>r :CtrlPGitBranch<CR>
+" }}}
+
+" CtrlP {{{
+let g:ctrlp_custom_ignore = {
+      \ 'dir': 'node_modules',
+      \ }
 " }}}
 
 " Git leader commands {{{
