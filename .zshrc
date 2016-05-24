@@ -292,6 +292,7 @@ alias gbg='git branch | grep'
 # function gc() { git checkout "${@:-master}"; } # Checkout master by default
 alias gc='git checkout'
 alias gcm='gc master'
+alias gcd='gc development'
 alias gco='gc'
 alias gcb='gc -b'
 alias gr='git reset'
@@ -299,7 +300,6 @@ alias grh='gr --hard'
 alias grhh='grh HEAD'
 alias grs='gr --soft'
 alias gcl='git clone'
-alias gcd='git rev-parse 2>/dev/null && cd "./$(git rev-parse --show-cdup)"'
 alias gpr='g pull-request'
 alias gwip='git add . && git commit -am wip'
 
@@ -389,10 +389,11 @@ alias svu='cd ~/code/nomi/services/svc-users'
 alias gms='cd ~/code/nomi/gems'
 alias jcl='cd ~/code/nomi/gems/json_client'
 alias gwy='cd ~/code/nomi/services/svc-gateway'
-alias plt='cd ~/code/nomi/web-platform'
 alias ops='cd ~/code/nomi/web-operations'
 alias pup='cd ~/code/nomi/puppet'
 alias hra='cd ~/code/nomi/hiera'
+
+alias plt='cd ~/code/ssc/platform'
 
 export NODE_ENV='development'
 # }}}
