@@ -127,6 +127,7 @@ bindsym XF86KbdBrightnessDown exec "sudo /opt/kbdlight/bin/kbdlight -"
 bindsym XF86KbdBrightnessUp exec "sudo /opt/kbdlight/bin/kbdlight +"
 
 bindsym XF86Eject exec "/bin/i3lock -c 222222"
+bindsym XF86LaunchA exec "/bin/i3lock -c 222222"
 bindsym XF86Launch6 exec "/bin/i3lock -c 222222"
 bindcode 127 exec "/bin/i3lock -c 222222"
 
