@@ -556,6 +556,28 @@ kbdup() {
 
 # }}}
 
+# Run docker containers {{{
+alias dockerfox='xhost +local:docker && docker run \
+    -d \
+    -v $HOME/.pentadactyl:/home/firefox/.pentadactyl:rw \
+    -v $HOME/.pentadactylrc:/home/firefox/.pentadactylrc:rw \
+    -v $HOME/.mozilla:/home/firefox/.mozilla:rw \
+    -v $HOME/.config:/home/firefox/.config \
+    -v $HOME/Downloads:/home/firefox/Downloads:rw \
+    -v /etc/fonts:/etc/fonts \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v /dev/snd:/dev/snd \
+    --net=host \
+    -v $XDG_RUNTIME_DIR:$XDG_RUNTIME_DIR \
+    -e uid=$(id -u) \
+    -e gid=$(id -g) \
+    -e DISPLAY=$DISPLAY \
+    -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
+    --name firefox \
+    --rm -it \
+    glittershark/firefox'
+# }}}
+
 [ -f ./.localrc ] && source ./.localrc
 
 source ~/.fzf.zsh
@@ -577,3 +599,6 @@ alias http='http --style solarized'
 
 alsi -n -u
 
+source /usr/share/nvm/init-nvm.sh
+
+export PATH="$HOME/.yarn/bin:$PATH"
