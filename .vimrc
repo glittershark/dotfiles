@@ -69,9 +69,13 @@ colorscheme solarized
 
 " ---------------------------------------------------------------------------
 
+" CtrlP {{{
 let g:ctrlp_custom_ignore = {
       \ 'dir': '(node_modules|target)'
       \ }
+let g:ctrlp_max_files = 0
+let g:ctrlp_max_depth = 100
+" }}}
 
 " YouCompleteMe {{{
 let g:ycm_semantic_triggers =  {
@@ -717,10 +721,17 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 augroup striptrailingwhitespaces " {{{
-autocmd FileType c,cpp,java,php,ruby,python,sql,javascript,sh,jst,less,haskell,haml,coffee,scss,clojure,objc,elixir,yaml,json
+autocmd FileType c,cpp,java,php,ruby,python,sql,javascript,sh,jst,less,haskell,haml,coffee,scss,clojure,objc,elixir,yaml,json,eruby
   \ autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 augroup END " }}}
 
+" }}}
+
+" Goyo {{{
+let g:limelight_conceal_ctermfg = "10"
+let g:limelight_conceal_guifg = "#586e75"
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
 " }}}
 
 "-----------------------------------------------------------------------------
