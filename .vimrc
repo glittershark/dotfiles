@@ -502,6 +502,38 @@ let g:projectionist_heuristics = {
       \     "type": "src",
       \     "alternate": "test/{}_spec.js"
       \   }
+      \ },
+      \ "pom.xml&src/main/clj/|src/main/cljs": {
+      \   "*": { 
+      \     "start": "USE_NREPL=1 bin/run -m elephant.dev-system" ,
+      \     "connect": "nrepl://localhost:5554",
+      \     "piggieback": "(figwheel-sidecar.repl-api/repl-env)"
+      \   },
+      \   "pom.xml": { "type": "pom" },
+      \   "src/main/clj/*.clj": {
+      \     "alternate": "src/test/clj/{}_test.clj",
+      \     "template": ["(ns {dot|hyphenate})"]
+      \   },
+      \   "src/test/clj/*_test.clj": {
+      \     "alternate": "src/main/clj/{}.clj",
+      \     "dispatch": ":RunTests {dot|hyphenate}-test",
+      \     "template": ["(ns {dot|hyphenate}-test",
+      \                  "  (:require [clojure.test :refer :all]))"]
+      \   },
+      \   "src/main/cljs/*.cljs": {
+      \     "alternate": "src/test/cljs/{}_test.cljs"
+      \   },
+      \   "src/main/cljs/*_test.cljs": {
+      \     "alternate": "src/main/cljs/{}.cljs",
+      \     "dispatch": ":RunTests {dot|hyphenate}-test"
+      \   },
+      \   "src/main/clj/*.cljc": {
+      \     "alternate": "src/test/clj/{}_test.cljc"
+      \   },
+      \   "src/main/clj/*_test.cljc": {
+      \     "alternate": "src/test/clj/{}.cljc",
+      \     "dispatch": ":RunTests {dot|hyphenate}-test"
+      \   }
       \ }}
 " }}}
 
@@ -604,6 +636,7 @@ command! -range ConvertHashSyntax <line1>,<line2>s/:(\S{-})(\s{-})=> /\1:\2/
 aug Clojure
   au!
   autocmd FileType clojure nnoremap <C-S> :Slamhound<CR>
+  autocmd FileType clojure nnoremap <silent> gr :w <bar> Require <bar> e<CR>
   let g:clojure_align_multiline_strings = 1
   let g:clojure_fuzzy_indent_patterns =
         \ ['^with', '^def', '^let', '^fact']
@@ -617,6 +650,39 @@ aug Clojure
   autocmd BufNewFile,BufReadPost *.cljx setlocal omnifunc=
   autocmd BufNewFile,BufReadPost *.cljs setlocal omnifunc=
   autocmd FileType clojure call <SID>TangentInit()
+  autocmd FileType clojure call <SID>sexp_mappings()
+  autocmd BufRead *.cljc ClojureHighlightReferences
+  autocmd FileType clojure let b:AutoPairs = {
+        \ '"': '"',
+        \ '{': '}',
+        \ '(': ')',
+        \ '[': ']'}
+        " Don't auto-pair quote reader macros
+        " \'`': '`',
+        " \ '''': '''', 
+
+  autocmd User ProjectionistActivate call s:projectionist_connect()
+
+  function! s:projectionist_connect() abort
+    let connected = !empty(fireplace#path())
+    if !connected
+      for [root, value] in projectionist#query('connect')
+        try
+          silent execute "FireplaceConnect" value root
+          let connected = 1
+          break
+        catch /.*Connection refused.*/
+        endtry
+      endfor
+    endif
+
+    " if connected && exists(':Piggieback') 
+    "   for [root, value] in projectionist#query('piggieback')
+    "     silent execute "Piggieback" value
+    "     break
+    "   endfor
+    " endif
+  endfunction
 
   " autocmd BufNewFile,BufReadPost *.cljx setlocal omnifunc=
   " autocmd BufNewFile,BufReadPost *.cljs setlocal omnifunc=
@@ -646,6 +712,16 @@ aug Clojure
     let b:scratch = 1
   endfunction
 aug END
+
+function! s:sexp_mappings() abort
+  if !exists('g:sexp_loaded')
+    return
+  endif
+
+  nmap <buffer> cfo <Plug>(sexp_raise_list)
+  nmap <buffer> cfO <Plug>(sexp_raise_element)
+  nmap <buffer> cfe <Plug>(sexp_raise_element)
+endfunction
 
 function! s:TangentInit() abort
   set textwidth=80
