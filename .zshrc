@@ -462,6 +462,12 @@ alias dck='docker'
 alias dc='docker-compose'
 alias dcu='docker-compose up'
 alias dup=dcu
+
+# dbp foo/bar .
+function dbp () {
+  docker build -t $1 ${@:2} && docker push $1
+}
+
 # }}}
 
 # Vagrant {{{

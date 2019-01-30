@@ -1,0 +1,1 @@
+/home/griffin/.vimrc
