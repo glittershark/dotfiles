@@ -1,0 +1,2 @@
+#!/bin/bash
+rofi -modi 'combi,calc:qalc +u8 -nocurrencies' -combi-modi "window,drun,ssh,Clipboard:greenclip print,run" -font 'MesloLGSDZ 10' -show combi
